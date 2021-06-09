@@ -28,7 +28,7 @@ const options = {
       children: [
         {
           path: "dashboard",
-          name: "Dashboard",
+          name: "工作台",
           meta: {
             icon: "dashboard"
           },

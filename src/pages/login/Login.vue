@@ -133,7 +133,12 @@ export default {
           this.logging = true;
           const name = this.form.getFieldValue("name");
           const password = this.form.getFieldValue("password");
-          login(name, password).then(this.afterLogin);
+          login(name, password)
+            .then(this.afterLogin)
+            .catch((err) => {
+              this.$message.error(err);
+              this.logging = false;
+            });
         }
       });
     },
@@ -142,31 +147,31 @@ export default {
       this.logging = false;
       const loginRes = res.data;
       if (loginRes.status == 200) {
-        // const { user, permissions, roles } = loginRes.data;
         this.setUser({
-          name: loginRes.loginName,
-          phone:loginRes.phone,
+          name: loginRes.result.loginName,
+          phone: loginRes.result.phone,
           address: "",
           position: "",
           avatar: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png"
         });
 
-        // this.setPermissions(permissions)
-        // this.setRoles(roles)
-
         // 设置token
         setAuthorization({
-          token: "tokentokentokentoken"
+          token: loginRes.result.token
         });
+
+        // const { permissions, roles } = loginRes.data;
+        // this.setPermissions(permissions)
+        // this.setRoles(roles)
 
         // 获取路由配置
         // getRoutesConfig().then(result => {
         //   const routesConfig = result.data.data
         //   loadRoutes(routesConfig)
-
         this.$router.push("/dashboard/workplace");
         this.$message.success(loginRes.msg, 3);
         // })
+
       } else {
         this.error = loginRes.msg;
       }

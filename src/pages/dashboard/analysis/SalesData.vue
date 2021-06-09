@@ -1,3 +1,9 @@
+<!--
+ * @LastEditTime: 2021-06-09 11:12:04
+ * @Description: 
+ * @Tags: 
+ * @FilePath: /vue-antd-admin/src/pages/dashboard/analysis/SalesData.vue
+-->
 <template>
   <div style="">
     <v-chart :forceFit="true" :height="height" :data="data" :scale="scale">

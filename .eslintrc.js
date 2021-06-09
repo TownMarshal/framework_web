@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-03-17 16:31:55
+ * @LastEditTime: 2021-06-09 09:59:03
  * @Description: Eslint配置
  * @Tags: @eslint
  * @FilePath: /vue-antd-admin/.eslintrc.js
@@ -40,7 +40,7 @@ module.exports = {
     // 禁止使用alert confirm prompt
     "no-alert": "error",
     // 检查未使用变量
-    "no-unused-vars": ["error", {
+    "no-unused-vars": ["warn", {
       // all检查所有变量是否使用，包括全局变量/局部变量。默认设置为all。
       // local 仅检查是局部声明是否使用，但可以存在不使用的全局变量。
       vars: "all",

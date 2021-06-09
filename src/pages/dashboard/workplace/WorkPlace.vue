@@ -1,11 +1,11 @@
 <template>
   <page-layout :avatar="currUser.avatar">
     <div slot="headerContent">
-      <div class="title">{{welcome.timeFix[lang]}}，{{currUser.name}}，{{welcome.message[lang]}}</div>
-      <div>{{currUser.position[lang]}}</div>
+      <div class="title">{{currUser.name}}</div>
+      <div>{{currUser.phone}}</div>
     </div>
     <template slot="extra">
-      <head-info class="split-right"
+      <!-- <head-info class="split-right"
                  :title="$t('project')"
                  content="56" />
       <head-info class="split-right"
@@ -13,9 +13,9 @@
                  content="8/24" />
       <head-info class="split-right"
                  :title="$t('visit')"
-                 content="2,223" />
+                 content="2,223" /> -->
     </template>
-    <template>
+    <!-- <template>
       <a-row style="margin: 0 -12px">
         <a-col style="padding: 0 12px"
                :xl="16"
@@ -120,20 +120,25 @@
           </a-card>
         </a-col>
       </a-row>
-    </template>
+    </template> -->
   </page-layout>
 </template>
 
 <script>
 import PageLayout from "@/layouts/PageLayout";
-import HeadInfo from "@/components/tool/HeadInfo";
-import Radar from "@/components/chart/Radar";
+// import HeadInfo from "@/components/tool/HeadInfo";
+// 雷达图组件
+// import Radar from "@/components/chart/Radar";
 import { mapState } from "vuex";
-import { request } from "@/utils/request";
+// import { request } from "@/utils/request";
 
 export default {
   name: "WorkPlace",
-  components: { Radar, HeadInfo, PageLayout },
+  components: {
+    // Radar, // 雷达图组件
+    // HeadInfo,
+    PageLayout
+  },
   i18n: require("./i18n"),
   data () {
     return {
@@ -152,13 +157,13 @@ export default {
     ...mapState("setting", ["lang"])
   },
   created () {
-    request("/user/welcome", "get").then(res => this.welcome = res.data);
-    request("/work/activity", "get").then(res => this.activities = res.data);
-    request("/work/team", "get").then(res => this.teams = res.data);
-    request("/project", "get").then(res => {
-      this.projects = res.data;
-      this.loading = false;
-    });
+    // request("/user/welcome", "get").then(res => this.welcome = res.data);
+    // request("/work/activity", "get").then(res => this.activities = res.data);
+    // request("/work/team", "get").then(res => this.teams = res.data);
+    // request("/project", "get").then(res => {
+    //   this.projects = res.data;
+    //   this.loading = false;
+    // });
   }
 };
 </script>

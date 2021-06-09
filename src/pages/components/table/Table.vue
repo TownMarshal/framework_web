@@ -114,16 +114,16 @@ export default {
   },
   methods: {
     getGoodList() {
-      this.loading = true;
-      const {page, pageSize, conditions} = this;
-      ds.goodsList({page, pageSize, ...conditions}).then(result => {
-        const {list, page, pageSize, total} = result.data.data;
-        this.dataSource = list;
-        this.page = page;
-        this.total = total;
-        this.pageSize = pageSize;
-        this.loading = false;
-      });
+      // this.loading = true;
+      // const {page, pageSize, conditions} = this;
+      // ds.goodsList({page, pageSize, ...conditions}).then(result => {
+      //   const {list, page, pageSize, total} = result.data.data;
+      //   this.dataSource = list;
+      //   this.page = page;
+      //   this.total = total;
+      //   this.pageSize = pageSize;
+      //   this.loading = false;
+      // });
     },
     getColumns() {
       ds.goodsColumns().then(res => {
