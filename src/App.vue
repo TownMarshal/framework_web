@@ -1,3 +1,9 @@
+<!--
+ * @LastEditTime: 2021-06-09 22:27:52
+ * @Description: 
+ * @Tags: 
+ * @FilePath: /vue-antd-admin/src/App.vue
+-->
 <template>
   <a-config-provider :locale="locale" :get-popup-container="popContainer">
     <router-view/>

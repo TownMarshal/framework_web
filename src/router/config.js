@@ -2,7 +2,7 @@ import TabsView from "@/layouts/tabs/TabsView";
 import BlankView from "@/layouts/BlankView";
 import PageView from "@/layouts/PageView";
 
-// 路由配置
+// 路由配置 @router
 const options = {
   routes: [
     {
@@ -51,16 +51,11 @@ const options = {
             }
           ]
         },
-        
+
         {
           path: "PermissionControl",
           name: "权限控制",
-          meta: {
-            icon: "form",
-            page: {
-              cacheAble: false
-            }
-          },
+          meta: { icon: "control" },
           component: PageView,
           children: [
             {
@@ -71,6 +66,7 @@ const options = {
             {
               path: "menu",
               name: "菜单管理",
+              desc: "????",
               component: () => import("@/pages/permissions/menu"),
             },
           ]
