@@ -1,16 +1,15 @@
 <template>
   <div class="table">
-    <advance-table
-      :columns="columns"
-      :data-source="dataSource"
-      title="高级表格-Beta"
-      :loading="loading"
-      rowKey="id"
-      @search="onSearch"
-      @refresh="onRefresh"
-      :format-conditions="true"
-      @reset="onReset"
-      :pagination="{
+    <advance-table :columns="columns"
+                   :data-source="dataSource"
+                   title="高级表格-Beta"
+                   :loading="loading"
+                   rowKey="id"
+                   @search="onSearch"
+                   @refresh="onRefresh"
+                   :format-conditions="true"
+                   @reset="onReset"
+                   :pagination="{
         current: page,
         pageSize: pageSize,
         total: total,
@@ -20,15 +19,18 @@
         showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，总计 ${total} 条`,
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
-      }"
-    >
+      }">
       <template slot="statusTitle">
-        状态<a-icon style="margin: 0 4px" type="info-circle" />
+        状态
+        <a-icon style="margin: 0 4px"
+                type="info-circle" />
       </template>
-      <template slot="send" slot-scope="{text}">
+      <template slot="send"
+                slot-scope="{text}">
         {{text ? '是' : '否'}}
       </template>
-      <template slot="status" slot-scope="{text}">
+      <template slot="status"
+                slot-scope="{text}">
         {{text | statusStr}}
       </template>
     </advance-table>
@@ -38,14 +40,14 @@
 
 <script>
 import AdvanceTable from "@/components/table/advance/AdvanceTable";
-import {dataSource as ds} from "@/services";
+import { dataSource as ds } from "@/services";
 import Api from "@/pages/components/table/Api";
 
 export default {
   name: "Table",
-  components: {Api, AdvanceTable},
+  components: { Api, AdvanceTable },
   filters: {
-    statusStr(val) {
+    statusStr (val) {
       switch (val) {
         case 1: return "已下单";
         case 2: return "已付款";
@@ -54,7 +56,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       loading: false,
       page: 1,
@@ -74,14 +76,14 @@ export default {
           searchAble: true,
           dataIndex: "status",
           dataType: "select",
-          slots: {title: "statusTitle"},
-          scopedSlots: {customRender: "status"},
+          slots: { title: "statusTitle" },
+          scopedSlots: { customRender: "status" },
           search: {
             selectOptions: [
-              {title: "已下单", value: 1},
-              {title: "已付款", value: 2},
-              {title: "已审核", value: 3},
-              {title: "已发货", value: 4}
+              { title: "已下单", value: 1 },
+              { title: "已付款", value: 2 },
+              { title: "已审核", value: 3 },
+              { title: "已发货", value: 4 }
             ]
           }
         },
@@ -90,7 +92,7 @@ export default {
           searchAble: true,
           dataIndex: "send",
           dataType: "boolean",
-          scopedSlots: {customRender: "send"},
+          scopedSlots: { customRender: "send" },
           search: {
             switchOptions: {
               checkedText: "开",
@@ -108,12 +110,12 @@ export default {
       conditions: {}
     };
   },
-  created() {
+  created () {
     this.getGoodList();
     this.getColumns();
   },
   methods: {
-    getGoodList() {
+    getGoodList () {
       // this.loading = true;
       // const {page, pageSize, conditions} = this;
       // ds.goodsList({page, pageSize, ...conditions}).then(result => {
@@ -125,31 +127,31 @@ export default {
       //   this.loading = false;
       // });
     },
-    getColumns() {
+    getColumns () {
       ds.goodsColumns().then(res => {
         this.columns = res.data;
       });
     },
-    onSearch(conditions, searchOptions) {
+    onSearch (conditions, searchOptions) {
       console.log(searchOptions);
       this.page = 1;
       this.conditions = conditions;
       this.getGoodList();
     },
-    onSizeChange(current, size) {
+    onSizeChange (current, size) {
       this.page = 1;
       this.pageSize = size;
       this.getGoodList();
     },
-    onRefresh(conditions) {
+    onRefresh (conditions) {
       this.conditions = conditions;
       this.getGoodList();
     },
-    onReset(conditions) {
+    onReset (conditions) {
       this.conditions = conditions;
       this.getGoodList();
     },
-    onPageChange(page, pageSize) {
+    onPageChange (page, pageSize) {
       this.page = page;
       this.pageSize = pageSize;
       this.getGoodList();
@@ -159,7 +161,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.table{
+.table {
   background-color: @base-bg-color;
   padding: 24px;
 }

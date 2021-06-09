@@ -108,7 +108,6 @@ import {
 import { setAuthorization } from "@/utils/request";
 // import { loadRoutes } from "@/utils/routerUtil";
 import { mapMutations } from "vuex";
-
 export default {
   name: "Login",
   components: { CommonLayout },
@@ -143,7 +142,7 @@ export default {
       });
     },
     afterLogin (res) {
-      console.log(res.data.result);
+      console.log(res);
       this.logging = false;
       const loginRes = res.data;
       if (loginRes.status == 200) {
@@ -158,7 +157,7 @@ export default {
         // 设置token
         setAuthorization({
           token: loginRes.result.token
-        });
+        }, "token");
 
         // const { permissions, roles } = loginRes.data;
         // this.setPermissions(permissions)

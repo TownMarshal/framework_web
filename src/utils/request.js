@@ -5,18 +5,13 @@ import qs from "qs";
 // 跨域认证信息 header 名
 const xsrfHeaderName = "Authorization";
 
+// jwt Token验证相关
+let token = localStorage.getItem("token");
 axios.defaults.timeout = 5000;
 axios.defaults.withCredentials = true;
-axios.defaults.xsrfHeaderName = xsrfHeaderName;
-axios.defaults.xsrfCookieName = xsrfHeaderName;
-
-// 认证类型
-const AUTH_TYPE = {
-  BEARER: "Bearer",
-  BASIC: "basic",
-  AUTH1: "auth1",
-  AUTH2: "auth2",
-};
+if (token) {
+  axios.defaults.headers.common["Access-Token"] = token;
+}
 
 /**
  * axios请求
@@ -47,16 +42,22 @@ async function request (url, method, params, config) {
 /**
  * 设置认证信息
  * @param auth {Object}
- * @param authType {AUTH_TYPE} 认证类型，默认：{AUTH_TYPE.BEARER}
+ * @param authType 认证类型，默认：{"Bearer"}
  */
-function setAuthorization (auth, authType = AUTH_TYPE.BEARER) {
+function setAuthorization (auth, authType = "Bearer") {
   switch (authType) {
-    case AUTH_TYPE.BEARER:
+    case "Bearer":
       Cookie.set(xsrfHeaderName, "Bearer " + auth.token, { expires: auth.expireAt });
       break;
-    case AUTH_TYPE.BASIC:
-    case AUTH_TYPE.AUTH1:
-    case AUTH_TYPE.AUTH2:
+    case "token":
+      // auth.token = 1;
+      localStorage.setItem("token", auth.token);
+      token = auth.token;
+      axios.defaults.headers.common["Access-Token"] = auth.token;
+      break;
+    case "basic":
+    case "auth1":
+    case "auth2":
     default:
       break;
   }
@@ -64,16 +65,23 @@ function setAuthorization (auth, authType = AUTH_TYPE.BEARER) {
 
 /**
  * 移出认证信息
- * @param authType {AUTH_TYPE} 认证类型
+ * @param authType 认证类型
  */
-function removeAuthorization (authType = AUTH_TYPE.BEARER) {
+function removeAuthorization (authType = "Bearer") {
   switch (authType) {
-    case AUTH_TYPE.BEARER:
+    case "Bearer":
       Cookie.remove(xsrfHeaderName);
       break;
-    case AUTH_TYPE.BASIC:
-    case AUTH_TYPE.AUTH1:
-    case AUTH_TYPE.AUTH2:
+    case "token":
+      localStorage.removeItem("token");
+      token = null;
+      if (axios.defaults.headers.common.Authorization) {
+        delete axios.defaults.headers.common.Authorization;
+      }
+      break;
+    case "basic":
+    case "auth1":
+    case "auth2":
     default:
       break;
   }
@@ -84,16 +92,21 @@ function removeAuthorization (authType = AUTH_TYPE.BEARER) {
  * @param authType
  * @returns {boolean}
  */
-function checkAuthorization (authType = AUTH_TYPE.BEARER) {
+function checkAuthorization (authType = "Bearer") {
   switch (authType) {
-    case AUTH_TYPE.BEARER:
+    case "Bearer":
       if (Cookie.get(xsrfHeaderName)) {
         return true;
       }
       break;
-    case AUTH_TYPE.BASIC:
-    case AUTH_TYPE.AUTH1:
-    case AUTH_TYPE.AUTH2:
+    case "token":
+      if (token) {
+        return true;
+      }
+      break;
+    case "basic":
+    case "auth1":
+    case "auth2":
     default:
       break;
   }
@@ -160,7 +173,6 @@ function parseUrlParams (url) {
 }
 
 export {
-  AUTH_TYPE,
   request,
   setAuthorization,
   removeAuthorization,

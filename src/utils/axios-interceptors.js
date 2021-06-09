@@ -1,3 +1,9 @@
+/*
+ * @LastEditTime: 2021-06-09 16:24:54
+ * @Description: 
+ * @Tags: 
+ * @FilePath: /vue-antd-admin/src/utils/axios-interceptors.js
+ */
 import Cookie from "js-cookie";
 // 401拦截
 const resp401 = {
@@ -59,7 +65,7 @@ const reqCommon = {
     const {message} = options;
     const {url, xsrfCookieName} = config;
     if (url.indexOf("login") === -1 && xsrfCookieName && !Cookie.get(xsrfCookieName)) {
-      message.warning("认证 token 已过期，请重新登录");
+      // message.warning("认证 token 已过期，请重新登录");
     }
     return config;
   },

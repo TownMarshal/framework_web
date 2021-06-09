@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-08 16:42:25
+ * @LastEditTime: 2021-06-09 16:12:17
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/services/user.js
@@ -32,7 +32,7 @@ export function logout () {
   localStorage.removeItem(process.env.VUE_APP_ROUTES_KEY);
   localStorage.removeItem(process.env.VUE_APP_PERMISSIONS_KEY);
   localStorage.removeItem(process.env.VUE_APP_ROLES_KEY);
-  removeAuthorization();
+  removeAuthorization("token");
 }
 export default {
   login,

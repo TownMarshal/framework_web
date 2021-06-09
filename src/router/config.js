@@ -51,6 +51,32 @@ const options = {
             }
           ]
         },
+        
+        {
+          path: "PermissionControl",
+          name: "权限控制",
+          meta: {
+            icon: "form",
+            page: {
+              cacheAble: false
+            }
+          },
+          component: PageView,
+          children: [
+            {
+              path: "role",
+              name: "角色管理",
+              component: () => import("@/pages/permissions/role"),
+            },
+            {
+              path: "menu",
+              name: "菜单管理",
+              component: () => import("@/pages/permissions/menu"),
+            },
+          ]
+        },
+
+        // ========== = 原始自带路由 不使用可直接删除 = ============
         {
           path: "form",
           name: "表单页",
@@ -279,6 +305,7 @@ const options = {
         }
       ]
     },
+
   ]
 };
 
