@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 09:06:38
+ * @LastEditTime: 2021-06-10 13:37:29
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/menu.vue
@@ -36,7 +36,7 @@
         <a-button @click="showModal(record,true)" style="margin:5px">修改</a-button>
         <a-button type="danger" style="margin:5px" @click="deletethis(record)">删除</a-button>
       </div>
-      
+
     </a-table>
   </a-card>
 </template>

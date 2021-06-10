@@ -142,7 +142,6 @@ export default {
       });
     },
     afterLogin (res) {
-      console.log(res);
       this.logging = false;
       const loginRes = res.data;
       if (loginRes.status == 200) {

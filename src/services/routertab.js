@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-10 08:54:29
+ * @LastEditTime: 2021-06-10 11:05:41
  * @Description: 路由表相关操作接口
  * @Tags:
  * @FilePath: /vue-antd-admin/src/services/routertab.js
@@ -14,11 +14,10 @@ import { request } from "@/utils/request";
 
 // 保存角色信息
 async function save (params = {}) {
-  console.log(params);
   if (params.id) {
-    return request(ROUTER_UPDATE, "form", params);
+    return request(ROUTER_UPDATE, "post", params);
   } else {
-    return request(ROUTER_ADD, "form", params);
+    return request(ROUTER_ADD, "post", params);
   }
 }
 // 查询路由树

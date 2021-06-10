@@ -1,7 +1,13 @@
+<!--
+ * @LastEditTime: 2021-06-10 10:25:49
+ * @Description: 个人中心
+ * @Tags: 
+ * @FilePath: /vue-antd-admin/src/layouts/header/HeaderAvatar.vue
+-->
 <template>
   <a-dropdown>
     <div class="header-avatar" style="cursor: pointer">
-      <a-avatar class="avatar" size="small" shape="circle" :src="user.avatar"/>
+      <a-avatar class="avatar" size="small" shape="circle" :src="user.avatar" />
       <span class="name">{{user.name}}</span>
     </div>
     <a-menu :class="['avatar-menu']" slot="overlay">
@@ -23,8 +29,8 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-import {logout} from "@/services/user";
+import { mapGetters } from "vuex";
+import { logout } from "@/services/user";
 
 export default {
   name: "HeaderAvatar",
@@ -32,29 +38,28 @@ export default {
     ...mapGetters("account", ["user"]),
   },
   methods: {
-    logout() {
-      logout();
-      this.$router.push("/login");
-    }
+    logout(){
+      return logout({ router: this.$router });
+    },
   }
 };
 </script>
 
 <style lang="less">
-  .header-avatar{
-    display: inline-flex;
-    .avatar, .name{
-      align-self: center;
-    }
-    .avatar{
-      margin-right: 8px;
-    }
-    .name{
-      font-weight: 500;
-    }
+.header-avatar {
+  display: inline-flex;
+  .avatar,
+  .name {
+    align-self: center;
   }
-  .avatar-menu{
-    width: 150px;
+  .avatar {
+    margin-right: 8px;
   }
-
+  .name {
+    font-weight: 500;
+  }
+}
+.avatar-menu {
+  width: 150px;
+}
 </style>

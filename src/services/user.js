@@ -1,10 +1,17 @@
 /*
- * @LastEditTime: 2021-06-09 16:12:17
+ * @LastEditTime: 2021-06-10 13:42:14
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/services/user.js
  */
-import { LOGIN, ROUTES } from "@/services/api";
+import {
+  LOGIN,
+  ROUTES,
+  USER_ADD,
+  USER_UPDATE,
+  USER_SELECT,
+  USER_DELETE,
+} from "@/services/api";
 import { request, removeAuthorization } from "@/utils/request";
 
 /**
@@ -28,14 +35,40 @@ export async function getRoutesConfig () {
 /**
  * 退出登录
  */
-export function logout () {
+export function logout (options) {
   localStorage.removeItem(process.env.VUE_APP_ROUTES_KEY);
   localStorage.removeItem(process.env.VUE_APP_PERMISSIONS_KEY);
   localStorage.removeItem(process.env.VUE_APP_ROLES_KEY);
+  options.router.push("/login");
   removeAuthorization("token");
 }
+
+
+// 保存信息用户
+async function save (params = {}) {
+  if (params.id) {
+    return request(USER_UPDATE, "post", params);
+  } else {
+    return request(USER_ADD, "post", params);
+  }
+}
+// 查询路由树
+async function query (params = {}) {
+  return request(USER_SELECT, "post", params);
+}
+
+// 移除路由
+async function remove (param) {
+  return request(USER_DELETE, "delete", {
+    id: typeof param == "object" ? param.id : param
+  });
+}
+
 export default {
   login,
   logout,
-  getRoutesConfig
+  getRoutesConfig,
+  save,
+  query,
+  remove
 };

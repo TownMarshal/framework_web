@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-09 17:40:28
+ * @LastEditTime: 2021-06-10 09:27:39
  * @Description: 
  * @Tags: @api @baseURL
  * @FilePath: /vue-antd-admin/src/services/api.js
@@ -20,6 +20,11 @@ module.exports = {
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
 
+  // ================ = 用户管理 = =====================
+  USER_ADD:`${BASE_URL}/sysUser/add`,
+  USER_DELETE:`${BASE_URL}/sysUser/delete`,
+  USER_SELECT:`${BASE_URL}/sysUser/select`,
+  USER_UPDATE:`${BASE_URL}/sysUser/update`,
 
   // ================ = 角色管理 = =====================
   ROLE_ADD: `${BASE_URL}/sysRole/add`,

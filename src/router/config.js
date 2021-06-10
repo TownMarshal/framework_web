@@ -59,14 +59,18 @@ const options = {
           component: PageView,
           children: [
             {
-              path: "role",
-              name: "角色管理",
-              component: () => import("@/pages/permissions/role"),
+              path: "user",
+              name: "用户管理",
+              component: () => import("@/pages/permissions/user"),
             },
+            // {
+            //   path: "role",
+            //   name: "角色管理",
+            //   component: () => import("@/pages/permissions/role"),
+            // },
             {
               path: "menu",
               name: "菜单管理",
-              desc: "????",
               component: () => import("@/pages/permissions/menu"),
             },
           ]

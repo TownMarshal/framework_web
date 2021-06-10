@@ -1,10 +1,11 @@
 /*
- * @LastEditTime: 2021-06-09 22:23:56
+ * @LastEditTime: 2021-06-10 10:23:05
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/utils/axios-interceptors.js
  */
 // import Cookie from "js-cookie";
+import { userService } from "@/services";
 // 401拦截
 const resp401 = {
   /**
@@ -30,7 +31,9 @@ const resp401 = {
     const { message } = options;
     const { response } = error;
     if (response.status === 401) {
-      message.error("无此权限");
+      message.error(response.data.msg);
+      // 退出返回到登录页
+      userService.logout(options);
     }
     return Promise.reject(error);
   }
