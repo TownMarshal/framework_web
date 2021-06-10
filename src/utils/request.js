@@ -26,6 +26,10 @@ async function request (url, method, params, config) {
       return axios.get(url, { params, ...config });
     case "post":
       return axios.post(url, params, config);
+    case "put":
+      return axios.put(url, params, config);
+    case "delete":
+      return axios.delete(url, { params, ...config });
     case "form":
       return axios.post(
         url,
