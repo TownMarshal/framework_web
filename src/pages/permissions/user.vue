@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 14:10:09
+ * @LastEditTime: 2021-06-10 14:57:47
  * @Description: @用户管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/user.vue
@@ -21,12 +21,12 @@
         </div>
 
         <div slot="action" slot-scope="record">
-          <a style="margin-right: 8px" @click="editUser(record)" :disabled="record.username == 'admin'">
+          <a style="margin-right: 8px" @click="editUser(record)" :disabled="record.userName == 'admin'">
             <a-icon type="edit" />编辑
           </a>
 
           <a-popconfirm title="确认删除吗?" ok-text="Yes" cancel-text="No" @confirm="deleteRecord(record.id)">
-            <a href="javascript:void(0)" :disabled="record.username == 'admin'">
+            <a href="javascript:void(0)" :disabled="record.userName == 'admin'">
               <a-icon type="delete" />删除
             </a>
           </a-popconfirm>
@@ -36,12 +36,11 @@
       <a-modal v-model="visible" :title="modalType == 'create'? '创建用户' : '修改用户信息'" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmit" @cancel="resetForm">
         <div style="max-height:70vh;overflow-y:scroll;">
           <a-form-model ref="ruleForm" :model="editTarget" :rules="rules">
-
             <a-form-model-item label="昵称" prop="loginName">
               <a-input v-model="editTarget.loginName" />
             </a-form-model-item>
             <a-form-model-item label="登录账号" prop="userName">
-              <a-input v-model="editTarget.userName" />
+              <a-input v-model="editTarget.userName" :disabled="modalType != 'create'" />
             </a-form-model-item>
             <a-form-model-item label="手机号" prop="phone">
               <a-input v-model="editTarget.phone" />
@@ -60,7 +59,7 @@
 import { userService } from "@/services";
 const columns = [
   { title: "昵称", dataIndex: "loginName" },
-  { title: "登录账号", dataIndex: "username" },
+  { title: "登录账号", dataIndex: "userName" },
   { title: "手机号", dataIndex: "phone" },
   { title: "操作", scopedSlots: { customRender: "action" } }
 ];

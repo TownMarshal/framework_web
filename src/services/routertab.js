@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-10 11:05:41
+ * @LastEditTime: 2021-06-10 15:20:35
  * @Description: 路由表相关操作接口
  * @Tags:
  * @FilePath: /vue-antd-admin/src/services/routertab.js
@@ -8,7 +8,7 @@ import {
   ROUTER_ADD,
   ROUTER_DELETE,
   ROUTER_QUERU,
-  ROUTER_UPDATE
+  ROUTER_UPDATE,
 } from "@/services/api";
 import { request } from "@/utils/request";
 

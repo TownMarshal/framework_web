@@ -63,11 +63,11 @@ const options = {
               name: "用户管理",
               component: () => import("@/pages/permissions/user"),
             },
-            // {
-            //   path: "role",
-            //   name: "角色管理",
-            //   component: () => import("@/pages/permissions/role"),
-            // },
+            {
+              path: "role",
+              name: "角色管理",
+              component: () => import("@/pages/permissions/role"),
+            },
             {
               path: "menu",
               name: "菜单管理",

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-10 09:27:39
+ * @LastEditTime: 2021-06-10 16:15:17
  * @Description: 
  * @Tags: @api @baseURL
  * @FilePath: /vue-antd-admin/src/services/api.js
@@ -21,10 +21,10 @@ module.exports = {
   GOODS_COLUMNS: `${BASE_URL}/columns`,
 
   // ================ = 用户管理 = =====================
-  USER_ADD:`${BASE_URL}/sysUser/add`,
-  USER_DELETE:`${BASE_URL}/sysUser/delete`,
-  USER_SELECT:`${BASE_URL}/sysUser/select`,
-  USER_UPDATE:`${BASE_URL}/sysUser/update`,
+  USER_ADD: `${BASE_URL}/sysUser/add`,
+  USER_DELETE: `${BASE_URL}/sysUser/delete`,
+  USER_SELECT: `${BASE_URL}/sysUser/select`,
+  USER_UPDATE: `${BASE_URL}/sysUser/update`,
 
   // ================ = 角色管理 = =====================
   ROLE_ADD: `${BASE_URL}/sysRole/add`,
@@ -32,11 +32,14 @@ module.exports = {
   ROLE_QUERY: `${BASE_URL}/sysRole/select`,
   ROLE_SELECT: `${BASE_URL}/sysRole/selectList`,
   ROLE_UPDATE: `${BASE_URL}/sysRole/update`,
+  // 查询角色的路由
+  ROLE_QUERY_ROUTER: `${BASE_URL}/sysRolePermission/selectRolePermission`,
+  // 为角色添加路由
+  ROLE_SAVE_ROUTER: `${BASE_URL}/sysRolePermission/update`,
 
   // ============= = 权限管理(路由表) = ====================
   ROUTER_ADD: `${BASE_URL}/sysPermission/add`,
   ROUTER_DELETE: `${BASE_URL}/sysPermission/delete`,
   ROUTER_QUERU: `${BASE_URL}/sysPermission/selectTree`,
   ROUTER_UPDATE: `${BASE_URL}/sysPermission/update`,
-
 };

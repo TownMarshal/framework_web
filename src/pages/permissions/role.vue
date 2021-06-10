@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 09:10:33
+ * @LastEditTime: 2021-06-10 15:01:58
  * @Description: @角色管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/role.vue
@@ -13,18 +13,18 @@
     <a-modal v-model="visible" title="新增/修改角色信息" width="40vw" @ok="onSubmit" @cancel="resetForm" okText="保存">
       <div style="max-height:70vh;overflow-y:scroll;">
         <a-form-model ref="ruleForm" :model="editTarget" :label-col="labelCol" :rules="rules" :wrapper-col="wrapperCol">
-          <a-form-model-item label="角色名称" prop="name">
-            <a-input v-model="editTarget.name" />
+          <a-form-model-item label="角色名称" prop="roleName">
+            <a-input v-model="editTarget.roleName" />
           </a-form-model-item>
-          <a-form-model-item label="描述" prop="desc">
-            <a-input v-model="editTarget.desc" />
+          <a-form-model-item label="描述" prop="roleDesc">
+            <a-input v-model="editTarget.roleDesc" />
           </a-form-model-item>
         </a-form-model>
       </div>
     </a-modal>
 
     <!-- 数据展示表格 -->
-    <a-table :columns="columns" :data-source="data" :row-key="record => record.id" bordered size="small" :scroll="{x:1000}" @expandedRowsChange="RowsChange" :loading="loading" :expandedRowKeys="expandedRowKeys">
+    <a-table :columns="columns" :data-source="data" :row-key="record => record.id" bordered size="small" @expandedRowsChange="RowsChange" :loading="loading" :expandedRowKeys="expandedRowKeys" @change="handleTableChange" :pagination="pagination">
       <!-- 自定义操作按钮 -->
       <div slot="action" slot-scope="record">
         <a-button type="primary" @click="showModal(record)" style="margin:5px">修改</a-button>
@@ -35,7 +35,7 @@
         </a-popconfirm>
       </div>
       <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        <a-table :columns="innercolumns" :data-source="record.remarks" :row-key="record => record.id" style='background:white;' :pagination="false" size="small">
+        <a-table :columns="innercolumns" :data-source="record.member" :row-key="record => record.id" style='background:white;' :pagination="false" size="small">
           <div slot="action" slot-scope="record">
             <a-popconfirm title="确认移除该成员?" ok-text="移除" cancel-text="取消" @confirm="RomoveUser(record)" placement="topLeft">
               <a type="danger">移除成员</a>
@@ -57,21 +57,14 @@
 </template>
 
 <script>
-import {
-  GetList,  // 获取角色列表
-  DeleteItem,  // 删除角色
-  SaveInfo,  // 保存 创建角色
-  GetInfo,// 获取角色详情
-  GetRoleUnderUserList, // 根据roleId查询角色下绑定的用户列表
-  RoleRemoveUser, // 移除角色下的绑定用户
-} from "@/services/role";
+import { role } from "@/services";
 
-// import distributionMenu from "@/pages/components/permission/distributionMenu.vue";
+import distributionMenu from "@/pages/components/permission/distributionMenu.vue";
 // import DistributionUser from "@/pages/components/permission/distributionUser.vue";
 
 export default {
   components: {
-    // distributionMenu, // 分配菜单组件
+    distributionMenu, // 分配菜单组件
     // DistributionUser  // 分配用户组件
   },
   name: "rolelist",
@@ -86,15 +79,10 @@ export default {
       MenuModalShow: false, // 是否显示分配路由页面
       roleid: "", // 当前分配角色的id
       data: [],
-      filters: [], // 状态筛选条件
       loading: false,// 加载中
-      scroll: {// 滚动限制
-        // y: document.body.clientHeight - 300,
-        x: 1400
-      },
       columns: [      // 表格列
-        { title: "名称", dataIndex: "name", key: "name" },
-        { title: "描述", dataIndex: "desc", key: "desc" },
+        { title: "名称", dataIndex: "roleName", key: "roleName" },
+        { title: "描述", dataIndex: "roleDesc", key: "roleDesc" },
         { title: "操作", dataIndex: "", key: "x", scopedSlots: { customRender: "action" }, width: 380 },
       ],
       innercolumns: [
@@ -102,14 +90,25 @@ export default {
         { title: "登录手机号", dataIndex: "phoneNum", key: "phoneNum\": " },
         { title: "操作", dataIndex: "", key: "x", scopedSlots: { customRender: "action" } },
       ],
+      // 分页
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        total: 0,
+        showTotal: ((total) => {
+          return `共 ${total} 条`;
+        }),
+        showSizeChanger: true
+      },
+      // 当前正在修改的row
       editTarget: {
         address: "",
         addressCode: ""
-      },// 当前正在修改的row
+      },
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       rules: {
-        name: [{ required: true, message: "请输入", trigger: "change" }],
+        roleName: [{ required: true, message: "请输入", trigger: "change" }],
       },
       expandedRowKeys: [],// 展开的行
       ShowAllotUserView: false, // 是否显示分配用户模态窗口
@@ -127,7 +126,7 @@ export default {
     onSubmit () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          SaveInfo(this.editTarget).then(res => {
+          role.save(this.editTarget).then(res => {
             this.visible = false;
             this.reload();
           });
@@ -146,9 +145,7 @@ export default {
       if (!editTarget.id) {// 新建角色
         this.editTarget = {};
       } else {
-        GetInfo({ id: editTarget.id }).then(res => {
-          this.editTarget = res.data.data;
-        });
+        this.editTarget = editTarget;
       }
       this.visible = true;
     },
@@ -159,48 +156,51 @@ export default {
     },
     // 删除角色
     deletethis (editTarget) {
-      DeleteItem({
-        id: editTarget.id
-      }).then(res => {
+      role.remove({ id: editTarget.id }).then(res => {
         this.reload();
       });
     },
     // 请求数据
-    fetch (params = {}) {
+    fetch () {
       this.loading = true;
-      GetList(params).then(this.getback);
+      role.query({
+        pageSize: this.pagination.pageSize,
+        pageNo: this.pagination.current,
+      }).then((res) => {
+        this.pagination.total = res.data.totalCount || 0;
+        this.data = res.data.data
+          .map(item => {
+            item.member = [];
+            return item;
+          });
+        // 检查是否有展开的行 请求行下的成员
+        this.RowsChange(this.expandedRowKeys);
+        this.loading = false;
+      });
     },
-    // 请求数据结束后的赋值回调
-    getback (res) {
-      const Data = res.data;
-      this.loading = false;
-      this.data = Data.data
-        .filter(item => item.delStatus != "1")
-        .map(item => {
-          item.remarks = [];
-          return item;
-        });
-      // 检查是否有展开的行 请求行下的成员
-      this.RowsChange(this.expandedRowKeys);
+    // 表格分页切换
+    handleTableChange (pagination, filters, sorter) {
+      this.pagination = pagination;
+      this.fetch();
     },
     // 角色展开
     RowsChange (rowKeys) {
       this.expandedRowKeys = [rowKeys[rowKeys.length - 1]];
       this.expandedRowKeys = this.expandedRowKeys.filter(item => item);
       if (this.expandedRowKeys.length) {
-        GetRoleUnderUserList({
-          roleId: this.expandedRowKeys[0]
-        }).then(res => {
-          // 获取角色下的用户列表
-          let RoleIncludeUser = res.data.data || [];
-          for (let index = 0; index < this.data.length; index++) {
-            const element = this.data[index];
-            if (element.id == this.expandedRowKeys[0]) {
-              element.remarks = RoleIncludeUser;
-              break;
-            }
-          }
-        });
+        // GetRoleUnderUserList({
+        //   roleId: this.expandedRowKeys[0]
+        // }).then(res => {
+        //   // 获取角色下的用户列表
+        //   let RoleIncludeUser = res.data.data || [];
+        //   for (let index = 0; index < this.data.length; index++) {
+        //     const element = this.data[index];
+        //     if (element.id == this.expandedRowKeys[0]) {
+        //       element.member = RoleIncludeUser;
+        //       break;
+        //     }
+        //   }
+        // });
       }
     },
     // 显示分配用户模态窗口
@@ -210,9 +210,7 @@ export default {
     },
     // 移除用户角色
     RomoveUser (userInfo) {
-      RoleRemoveUser({
-        id: userInfo.id
-      }).then(res => {
+      role.removeUser({ id: userInfo.id }).then(res => {
         if (res.data.code == 200) {
           this.$message.success(res.data.msg);
           this.RowsChange(this.expandedRowKeys);

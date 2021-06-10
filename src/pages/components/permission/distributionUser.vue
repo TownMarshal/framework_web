@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 09:14:33
+ * @LastEditTime: 2021-06-10 15:01:39
  * @Description: 为角色分配用户
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/components/permission/distributionUser.vue
@@ -45,11 +45,7 @@
 </template>
 
 <script>
-// 获取用户列表
-import { getUserList } from "@/services/user";
-// 为角色新增用户
-import { RoleAddUser } from "@/services/role";
-
+import { role } from "@/services";
 export default {
   props: ["AllotUserViewRoleID"],
   data () {
@@ -117,7 +113,7 @@ export default {
     },
     // 发送新增绑定请求
     sendAddRequest (id) {
-      RoleAddUser({
+      role.RoleAddUser({
         userId: id,
         roleId: this.AllotUserViewRoleID
       }).then(res => {

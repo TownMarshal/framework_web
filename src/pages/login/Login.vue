@@ -146,7 +146,7 @@ export default {
       const loginRes = res.data;
       if (loginRes.status == 200) {
         this.setUser({
-          name: loginRes.result.loginName,
+          name: loginRes.result.username,
           phone: loginRes.result.phone,
           address: "",
           position: "",
