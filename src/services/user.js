@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-10 13:42:14
+ * @LastEditTime: 2021-06-10 17:31:54
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/services/user.js
@@ -11,6 +11,8 @@ import {
   USER_UPDATE,
   USER_SELECT,
   USER_DELETE,
+  // 根据用户查他的角色
+  USER_QUERY_ROLE
 } from "@/services/api";
 import { request, removeAuthorization } from "@/utils/request";
 
@@ -64,11 +66,18 @@ async function remove (param) {
   });
 }
 
+
+export async function QueryRole (param) {
+  return request(USER_QUERY_ROLE, "get", param);
+}
+
+
 export default {
   login,
   logout,
   getRoutesConfig,
   save,
   query,
-  remove
+  remove,
+  QueryRole
 };

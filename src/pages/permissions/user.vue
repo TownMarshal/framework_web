@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 14:57:47
+ * @LastEditTime: 2021-06-10 17:56:36
  * @Description: @用户管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/user.vue
@@ -22,7 +22,11 @@
 
         <div slot="action" slot-scope="record">
           <a style="margin-right: 8px" @click="editUser(record)" :disabled="record.userName == 'admin'">
-            <a-icon type="edit" />编辑
+            <a-icon type="edit" />编辑信息
+          </a>
+
+          <a style="margin-right: 8px" @click="editRole(record)" :disabled="record.userName == 'admin'">
+            <a-icon type="plus" />设置角色
           </a>
 
           <a-popconfirm title="确认删除吗?" ok-text="Yes" cancel-text="No" @confirm="deleteRecord(record.id)">
@@ -51,12 +55,21 @@
           </a-form-model>
         </div>
       </a-modal>
+
+      <a-modal v-model="RoleVisible" title="设置角色" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmitRole">
+        <a-select mode="multiple" style="width: 100%" placeholder="选择角色" v-model="selectRole">
+          <a-select-option v-for="i in RoleList" :key="i.id">
+            {{i.roleDesc}} --- {{i.roleName}}
+          </a-select-option>
+        </a-select>
+      </a-modal>
+
     </div>
   </a-card>
 </template>
 
 <script>
-import { userService } from "@/services";
+import { userService, role } from "@/services";
 const columns = [
   { title: "昵称", dataIndex: "loginName" },
   { title: "登录账号", dataIndex: "userName" },
@@ -72,6 +85,10 @@ export default {
   },
   created () {
     this.reload();
+    // 获取角色列表
+    role.query({ pageSize: 100 }).then(res => {
+      this.RoleList = res.data.data;
+    });
   },
   data () {
     return {
@@ -100,6 +117,15 @@ export default {
       visible: false,
       // 弹出窗口状态
       modalType: "",
+
+      // 是否显示角色设置窗口
+      RoleVisible: false,
+      // 当前在设置角色的用户
+      currentUser: "",
+      // 全部角色的列表
+      RoleList: [],
+      // 当前选择角色的列表
+      selectRole: [],
     };
   },
   methods: {
@@ -111,6 +137,16 @@ export default {
       this.visible = true;
       this.modalType = "edit";
       this.editTarget = JSON.parse(JSON.stringify(editTarget));
+    },
+    // 设置角色
+    editRole (editTarget) {
+      this.RoleVisible = true;
+      this.currentUser = editTarget.id;
+      userService.QueryRole({
+        userId: this.currentUser
+      }).then(res => {
+        this.selectRole = res.data.data.map(item => item.id);
+      });
     },
     // 获取用户列表
     fetch () {
@@ -159,6 +195,16 @@ export default {
           console.log("error submit!!");
           return false;
         }
+      });
+    },
+    onSubmitRole () {
+      console.log("设置权限");
+      console.log(this.selectRole);
+      role.RoleAddUser({
+        userId: this.currentUser,
+        roleIdList: this.selectRole || []
+      }).then(res => {
+        console.log(res);
       });
     },
     // 还原表单

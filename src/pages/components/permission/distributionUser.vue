@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 15:01:39
+ * @LastEditTime: 2021-06-10 17:00:56
  * @Description: 为角色分配用户
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/components/permission/distributionUser.vue
@@ -71,12 +71,12 @@ export default {
     }
   },
   methods: {
-    //   提及框值变化时
+    // 提及框值变化时
     onChange (searchValue) {
       this.loading = true;
       clearTimeout(this.timer);
       this.timer = setTimeout(function () {
-        getUserList({
+        role.getUserList({
           search: searchValue
         }).then(res => {
           this.users = res.data.data;
@@ -86,7 +86,6 @@ export default {
     },
     // 提及框选中时
     onSelect (selectItem) {
-      //   console.log("select", arguments)
       if (!selectItem.value) {
         this.$message.error("该用户未绑定手机号，请重新选择");
         this.value = "";

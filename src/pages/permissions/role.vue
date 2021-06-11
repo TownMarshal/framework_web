@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 15:01:58
+ * @LastEditTime: 2021-06-10 17:18:30
  * @Description: @角色管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/role.vue
@@ -29,7 +29,7 @@
       <div slot="action" slot-scope="record">
         <a-button type="primary" @click="showModal(record)" style="margin:5px">修改</a-button>
         <a-button @click="showMenuModal(record)" style="margin:5px">设置权限</a-button>
-        <a-button @click="showAllot(record)" style="margin:5px">新增成员</a-button>
+        <!-- <a-button @click="showAllot(record)" style="margin:5px">新增成员</a-button> -->
         <a-popconfirm title="确认删除该角色?" ok-text="删除" cancel-text="取消" @confirm="deletethis(record)" placement="topLeft">
           <a-button type="danger" style="margin:5px" :disabled="record.delStatus == 1">删除</a-button>
         </a-popconfirm>
@@ -60,12 +60,12 @@
 import { role } from "@/services";
 
 import distributionMenu from "@/pages/components/permission/distributionMenu.vue";
-// import DistributionUser from "@/pages/components/permission/distributionUser.vue";
+import DistributionUser from "@/pages/components/permission/distributionUser.vue";
 
 export default {
   components: {
     distributionMenu, // 分配菜单组件
-    // DistributionUser  // 分配用户组件
+    DistributionUser  // 分配用户组件
   },
   name: "rolelist",
   computed: {
@@ -86,9 +86,9 @@ export default {
         { title: "操作", dataIndex: "", key: "x", scopedSlots: { customRender: "action" }, width: 380 },
       ],
       innercolumns: [
-        { title: "用户名", dataIndex: "name", key: "name" },
-        { title: "登录手机号", dataIndex: "phoneNum", key: "phoneNum\": " },
-        { title: "操作", dataIndex: "", key: "x", scopedSlots: { customRender: "action" } },
+        { title: "用户名", dataIndex: "userName", key: "userName" },
+        { title: "手机号", dataIndex: "phone", key: "phone" },
+        // { title: "操作", dataIndex: "", key: "x", scopedSlots: { customRender: "action" } },
       ],
       // 分页
       pagination: {
@@ -188,19 +188,20 @@ export default {
       this.expandedRowKeys = [rowKeys[rowKeys.length - 1]];
       this.expandedRowKeys = this.expandedRowKeys.filter(item => item);
       if (this.expandedRowKeys.length) {
-        // GetRoleUnderUserList({
-        //   roleId: this.expandedRowKeys[0]
-        // }).then(res => {
-        //   // 获取角色下的用户列表
-        //   let RoleIncludeUser = res.data.data || [];
-        //   for (let index = 0; index < this.data.length; index++) {
-        //     const element = this.data[index];
-        //     if (element.id == this.expandedRowKeys[0]) {
-        //       element.member = RoleIncludeUser;
-        //       break;
-        //     }
-        //   }
-        // });
+        role.RoleQueryUser({
+          roleId: this.expandedRowKeys[0]
+        }).then(res => {
+          console.log(res);
+          // 获取角色下的用户列表
+          let RoleIncludeUser = res.data.data || [];
+          for (let index = 0; index < this.data.length; index++) {
+            const element = this.data[index];
+            if (element.id == this.expandedRowKeys[0]) {
+              element.member = RoleIncludeUser;
+              break;
+            }
+          }
+        });
       }
     },
     // 显示分配用户模态窗口
@@ -210,12 +211,13 @@ export default {
     },
     // 移除用户角色
     RomoveUser (userInfo) {
-      role.removeUser({ id: userInfo.id }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success(res.data.msg);
-          this.RowsChange(this.expandedRowKeys);
-        }
-      });
+      console.log(userInfo);
+      // role.removeUser({ id: userInfo.id }).then(res => {
+      //   if (res.data.code == 200) {
+      //     this.$message.success(res.data.msg);
+      //     this.RowsChange(this.expandedRowKeys);
+      //   }
+      // });
     }
   }
 };

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-10 15:39:11
+ * @LastEditTime: 2021-06-10 16:27:09
  * @Description: 角色表相关接口
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/services/role.js
@@ -13,7 +13,11 @@ import {
   // 保存角色路由
   ROLE_SAVE_ROUTER,
   // 查询角色路由
-  ROLE_QUERY_ROUTER
+  ROLE_QUERY_ROUTER,
+  // 查询角色下的用户
+  ROLE_QUERY_USER,
+  // 保存角色下的用户
+  ROLE_SAVE_USER,
 } from "@/services/api";
 import { request } from "@/utils/request";
 
@@ -46,10 +50,23 @@ async function RoleQueryRouter (params = {}) {
   return request(ROLE_QUERY_ROUTER, "get", params);
 }
 
+// 为角色添加用户
+async function RoleAddUser (params = {}) {
+  return request(ROLE_SAVE_USER, "post", params);
+}
+// 查询角色下的用户
+async function RoleQueryUser (params = {}) {
+  return request(ROLE_QUERY_USER, "get", params);
+}
+
+
+
 export default {
   save,
   query,
   remove,
   RoleAddRouter,
-  RoleQueryRouter
+  RoleQueryRouter,
+  RoleAddUser,
+  RoleQueryUser
 };
