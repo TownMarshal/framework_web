@@ -130,8 +130,8 @@ export default {
 
         // 获取异步路由
         getRoutesConfig().then(res => {
-          // 加载异步路由
-          loadRoutes([{
+          // 格式化异步路由
+          let RouterConfig = [{
             router: "root",
             children: [
               "dashboard",
@@ -141,7 +141,12 @@ export default {
                   children: this.childrenFor(item)
                 };
               })]
-          }]);
+          }];
+          // 加载异步路由
+          loadRoutes(RouterConfig);
+          // 存储路由表
+          this.$store.commit("setting/setAllMenu", RouterConfig);
+
           // 跳转到落地页
           this.$router.push("/dashboard");
           this.$message.success(loginRes.msg, 3);

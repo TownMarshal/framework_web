@@ -1,8 +1,8 @@
 import config from "@/config";
-import {ADMIN} from "@/config/default";
-import {formatFullPath} from "@/utils/i18n";
-import {filterMenu} from "@/utils/authority-utils";
-import {getLocalSetting} from "@/utils/themeUtil";
+import { ADMIN } from "@/config/default";
+import { formatFullPath } from "@/utils/i18n";
+import { filterMenu } from "@/utils/authority-utils";
+import { getLocalSetting } from "@/utils/themeUtil";
 import deepClone from "lodash.clonedeep";
 
 const localSetting = getLocalSetting(true);
@@ -17,32 +17,33 @@ export default {
     palettes: ADMIN.palettes,
     pageMinHeight: 0,
     menuData: [],
+    allMenu: [],
     activatedFirst: undefined,
     customTitles,
     ...config,
     ...localSetting
   },
   getters: {
-    menuData(state, getters, rootState) {
+    menuData (state, getters, rootState) {
       if (state.filterMenu) {
-        const {permissions, roles} = rootState.account;
+        const { permissions, roles } = rootState.account;
         return filterMenu(deepClone(state.menuData), permissions, roles);
       }
       return state.menuData;
     },
-    firstMenu(state, getters) {
-      const {menuData} = getters;
+    firstMenu (state, getters) {
+      const { menuData } = getters;
       if (menuData.length > 0 && !menuData[0].fullPath) {
         formatFullPath(menuData);
       }
       return menuData.map(item => {
-        const menuItem = {...item};
+        const menuItem = { ...item };
         delete menuItem.children;
         return menuItem;
       });
     },
-    subMenu(state) {
-      const {menuData, activatedFirst} = state;
+    subMenu (state) {
+      const { menuData, activatedFirst } = state;
       if (menuData.length > 0 && !menuData[0].fullPath) {
         formatFullPath(menuData);
       }
@@ -66,46 +67,59 @@ export default {
     setAnimate (state, animate) {
       state.animate = animate;
     },
-    setWeekMode(state, weekMode) {
+    setWeekMode (state, weekMode) {
       state.weekMode = weekMode;
     },
-    setFixedHeader(state, fixedHeader) {
+    setFixedHeader (state, fixedHeader) {
       state.fixedHeader = fixedHeader;
     },
-    setFixedSideBar(state, fixedSideBar) {
+    setFixedSideBar (state, fixedSideBar) {
       state.fixedSideBar = fixedSideBar;
     },
-    setLang(state, lang) {
+    setLang (state, lang) {
       state.lang = lang;
     },
-    setHideSetting(state, hideSetting) {
+    setHideSetting (state, hideSetting) {
       state.hideSetting = hideSetting;
     },
-    correctPageMinHeight(state, minHeight) {
+    correctPageMinHeight (state, minHeight) {
       state.pageMinHeight += minHeight;
     },
-    setMenuData(state, menuData) {
+    setMenuData (state, menuData) {
       state.menuData = menuData;
     },
-    setAsyncRoutes(state, asyncRoutes) {
+    setAllMenu (state, allMenu) {
+      let List = [];
+      function check (target) {
+        target.forEach(item => {
+          List.push(item.router || item);
+          if (item.children) {
+            check(item.children);
+          }
+        });
+      }
+      check(allMenu);
+      state.allMenu = List;
+    },
+    setAsyncRoutes (state, asyncRoutes) {
       state.asyncRoutes = asyncRoutes;
     },
-    setPageWidth(state, pageWidth) {
+    setPageWidth (state, pageWidth) {
       state.pageWidth = pageWidth;
     },
-    setActivatedFirst(state, activatedFirst) {
+    setActivatedFirst (state, activatedFirst) {
       state.activatedFirst = activatedFirst;
     },
-    setFixedTabs(state, fixedTabs) {
+    setFixedTabs (state, fixedTabs) {
       state.fixedTabs = fixedTabs;
     },
-    setCustomTitle(state, {path, title}) {
+    setCustomTitle (state, { path, title }) {
       if (title) {
         const obj = state.customTitles.find(item => item.path === path);
         if (obj) {
           obj.title = title;
         } else {
-          state.customTitles.push({path, title});
+          state.customTitles.push({ path, title });
         }
         sessionStorage.setItem(process.env.VUE_APP_TBAS_TITLES_KEY, JSON.stringify(state.customTitles));
       }

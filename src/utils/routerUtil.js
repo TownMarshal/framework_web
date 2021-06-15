@@ -40,8 +40,10 @@ function parseRoutes (routesConfig, routerMap) {
       routeCfg = item;
     }
     if (!router) {
-      console.warn(`未找到路由${routeCfg.router}, 请先在routermap.Js中注册它.`);
+      console.warn(`未找到路由${routeCfg.router}, 请先在async/router.map.js中注册它.`);
       router = typeof item === "string" ? { path: item, name: item } : item;
+      // 如果路由不存在 不继续执行
+      return false;
     }
     // 从 router 和 routeCfg 解析路由
     const meta = {

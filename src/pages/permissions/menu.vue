@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 13:37:29
+ * @LastEditTime: 2021-06-15 15:30:38
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/menu.vue
@@ -28,16 +28,15 @@
     </a-modal>
 
     <a-table :columns="columns" :data-source="tableData" :row-key="record => record.id" bordered :pagination="false" :loading="loading" size="small" childrenColumnName="childrenList">
-
       <!-- 自定义操作按钮 -->
       <div slot="action" slot-scope="record">
         <a-button type="primary" @click="showModal(record)" style="margin:5px" v-if="record.childrenList">
           创建子路由</a-button>
         <a-button @click="showModal(record,true)" style="margin:5px">修改</a-button>
-        <a-button type="danger" style="margin:5px" @click="deletethis(record)">删除</a-button>
+        <a-button type="danger" style="margin:5px" @click="deletethis(record)" v-if="$permissions('删除菜单')">删除</a-button>
       </div>
-
     </a-table>
+
   </a-card>
 </template>
 
