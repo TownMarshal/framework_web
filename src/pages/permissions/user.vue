@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 17:56:36
+ * @LastEditTime: 2021-06-15 09:07:50
  * @Description: @用户管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/user.vue
@@ -140,6 +140,10 @@ export default {
     },
     // 设置角色
     editRole (editTarget) {
+      // 获取角色列表
+      role.query({ pageSize: 100 }).then(res => {
+        this.RoleList = res.data.data;
+      });
       this.RoleVisible = true;
       this.currentUser = editTarget.id;
       userService.QueryRole({
@@ -198,13 +202,17 @@ export default {
       });
     },
     onSubmitRole () {
-      console.log("设置权限");
-      console.log(this.selectRole);
       role.RoleAddUser({
         userId: this.currentUser,
         roleIdList: this.selectRole || []
       }).then(res => {
-        console.log(res);
+        if (res.data.code == 200) {
+          this.$message.success(res.data.msg);
+          this.RoleVisible = false;
+          this.fetch();
+        } else {
+          this.$message.error(res.data.msg);
+        }
       });
     },
     // 还原表单

@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-09 14:30:42
+ * @LastEditTime: 2021-06-15 09:00:45
  * @Description: 头部
  * @Tags: @header
  * @FilePath: /vue-antd-admin/src/layouts/header/AdminHeader.vue
@@ -36,8 +36,9 @@
         <header-notice class="header-item" />
         <!-- 用户头像 -->
         <header-avatar class="header-item" />
+        
         <!-- 多语言切换 -->
-        <a-dropdown class="lang header-item">
+        <a-dropdown class="lang header-item" v-show="false">
           <div>
             <a-icon type="global" /> {{langAlias}}
           </div>
@@ -48,7 +49,6 @@
                          :key="lang.key">{{lang.key.toLowerCase() + ' ' + lang.name}}</a-menu-item>
           </a-menu>
         </a-dropdown>
-        
       </div>
     </div>
   </a-layout-header>
