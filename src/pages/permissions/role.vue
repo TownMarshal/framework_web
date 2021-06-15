@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-10 17:18:30
+ * @LastEditTime: 2021-06-15 17:28:29
  * @Description: @角色管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/role.vue
@@ -59,8 +59,8 @@
 <script>
 import { role } from "@/services";
 
-import distributionMenu from "@/pages/components/permission/distributionMenu.vue";
-import DistributionUser from "@/pages/components/permission/distributionUser.vue";
+import distributionMenu from "@/pages/permissions/components/distributionMenu.vue";
+import DistributionUser from "@/pages/permissions/components/distributionUser.vue";
 
 export default {
   components: {
