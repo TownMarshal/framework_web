@@ -1,7 +1,13 @@
+<!--
+ * @LastEditTime: 2021-06-15 11:19:54
+ * @Description: 
+ * @Tags: 
+ * @FilePath: /vue-antd-admin/src/components/menu/SideMenu.vue
+-->
 <template>
   <a-layout-sider :theme="sideTheme" :class="['side-menu', 'beauty-scroll', isMobile ? null : 'shadow']" width="256px" :collapsible="collapsible" v-model="collapsed" :trigger="null">
     <div :class="['logo', theme]">
-      <router-link to="/dashboard/workplace">
+      <router-link to="/dashboard">
         <img src="@/assets/img/logo.png">
         <h1>{{systemName}}</h1>
       </router-link>

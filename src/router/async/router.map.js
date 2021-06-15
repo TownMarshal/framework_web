@@ -1,3 +1,10 @@
+/*
+ * @LastEditTime: 2021-06-15 14:25:15
+ * @Description: 
+ * @Tags: @异步路由
+ * @FilePath: /vue-antd-admin/src/router/async/router.map.js
+ */
+
 // 视图组件
 const view = {
   tabs: () => import("@/layouts/tabs"),
@@ -10,6 +17,7 @@ const routerMap = {
   login: {
     authority: "*",
     path: "/login",
+    name: "登录",
     component: () => import("@/pages/login")
   },
   root: {
@@ -20,106 +28,34 @@ const routerMap = {
   },
   dashboard: {
     name: "工作台",
-    component: view.blank
-  },
-  workplace: {
-    name: "工作台",
+    path: "/dashboard",
+    meta: { icon: "dashboard" },
     component: () => import("@/pages/dashboard/workplace")
   },
-  analysis: {
-    name: "分析页",
-    component: () => import("@/pages/dashboard/analysis")
+
+  // ================= = 权限控制部分 = ======================
+  PermissionControl: {
+    path: "/PermissionControl",
+    name: "权限控制",
+    meta: { icon: "control" },
+    component: view.page,
   },
-  form: {
-    name: "表单页",
-    icon: "form",
-    component: view.page
+  user: {
+    name: "用户管理",
+    path: "/user",
+    component: () => import("@/pages/permissions/user")
   },
-  basicForm: {
-    path: "basic",
-    name: "基础表单",
-    component: () => import("@/pages/form/basic")
+  role: {
+    name: "角色管理",
+    path: "/role",
+    component: () => import("@/pages/permissions/role")
   },
-  stepForm: {
-    path: "step",
-    name: "分步表单",
-    component: () => import("@/pages/form/step")
+  menu: {
+    name: "菜单管理",
+    path: "/menu",
+    component: () => import("@/pages/permissions/menu")
   },
-  advanceForm: {
-    path: "advance",
-    name: "高级表单",
-    component: () => import("@/pages/form/advance")
-  },
-  list: {
-    name: "列表页",
-    icon: "table",
-    component: view.page
-  },
-  queryList: {
-    path: "query",
-    name: "查询表格",
-    component: () => import("@/pages/list/QueryList")
-  },
-  primaryList: {
-    path: "primary",
-    name: "标准列表",
-    component: () => import("@/pages/list/StandardList")
-  },
-  cardList: {
-    path: "card",
-    name: "卡片列表",
-    component: () => import("@/pages/list/CardList")
-  },
-  searchList: {
-    path: "search",
-    name: "搜索列表",
-    component: () => import("@/pages/list/search/SearchLayout")
-  },
-  article: {
-    name: "文章",
-    component: () => import("@/pages/list/search/ArticleList")
-  },
-  application: {
-    name: "应用",
-    component: () => import("@/pages/list/search/ApplicationList")
-  },
-  project: {
-    name: "项目",
-    component: () => import("@/pages/list/search/ProjectList")
-  },
-  details: {
-    name: "详情页",
-    icon: "profile",
-    component: view.blank
-  },
-  basicDetails: {
-    path: "basic",
-    name: "基础详情页",
-    component: () => import("@/pages/detail/BasicDetail")
-  },
-  advanceDetails: {
-    path: "advance",
-    name: "高级详情页",
-    component: () => import("@/pages/detail/AdvancedDetail")
-  },
-  result: {
-    name: "结果页",
-    icon: "check-circle-o",
-    component: view.page
-  },
-  success: {
-    name: "成功",
-    component: () => import("@/pages/result/Success")
-  },
-  error: {
-    name: "失败",
-    component: () => import("@/pages/result/Error")
-  },
-  exception: {
-    name: "异常页",
-    icon: "warning",
-    component: view.blank
-  },
+  // ===================== = 异常页 = ===================
   exp403: {
     authority: "*",
     name: "exp403",
@@ -136,19 +72,6 @@ const routerMap = {
     path: "500",
     component: () => import("@/pages/exception/500")
   },
-  components: {
-    name: "小组件",
-    icon: "appstore-o",
-    component: view.page
-  },
-  taskCard: {
-    name: "任务卡片",
-    component: () => import("@/pages/components/TaskCard")
-  },
-  palette: {
-    name: "颜色复选框",
-    component: () => import("@/pages/components/Palette")
-  }
 };
 export default routerMap;
 

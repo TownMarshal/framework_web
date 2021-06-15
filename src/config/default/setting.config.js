@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-08 16:55:09
+ * @LastEditTime: 2021-06-15 11:57:46
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/config/default/setting.config.js
@@ -38,8 +38,8 @@ module.exports = {
   systemName: "通用后台框架",
   // copyright
   copyright: `2018 - ${new Date().getFullYear()} 青岛浩谦科技有限公司`,
-  // 异步加载路由，true:开启，false:不开启
-  asyncRoutes: false,
+  // @异步路由，true:开启，false:不开启
+  asyncRoutes: true,
   // 是否显示页面标题(PageLayout 布局中的页面标题)true:显示，false:不显示              
   showPageTitle: true,
   // 根据权限过滤菜单，true:过滤，false:不过滤

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-15 09:00:07
+ * @LastEditTime: 2021-06-15 11:27:38
  * @Description: 
  * @Tags: @api @baseURL
  * @FilePath: /vue-antd-admin/src/services/api.js
@@ -16,7 +16,8 @@ module.exports = {
   // 登录
   LOGIN: `${BASE_URL}/login`,
   // 获取异步路由
-  ROUTES: `${BASE_URL}/routes`,
+  ROUTES: `${BASE_URL}/sysPermission/selectTreeByUserId`,
+  
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
 

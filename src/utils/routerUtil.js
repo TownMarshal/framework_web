@@ -1,5 +1,5 @@
 import routerMap from "@/router/async/router.map";
-import {mergeI18nFromRoutes} from "@/utils/i18n";
+import { mergeI18nFromRoutes } from "@/utils/i18n";
 import Router from "vue-router";
 import deepMerge from "deepmerge";
 import basicOptions from "@/router/async/config.async";
@@ -15,8 +15,8 @@ let appOptions = {
  * 设置应用配置
  * @param options
  */
-function setAppOptions(options) {
-  const {router, store, i18n} = options;
+function setAppOptions (options) {
+  const { router, store, i18n } = options;
   appOptions.router = router;
   appOptions.store = store;
   appOptions.i18n = i18n;
@@ -27,21 +27,21 @@ function setAppOptions(options) {
  * @param routesConfig 路由配置
  * @param routerMap 本地路由组件注册配置
  */
-function parseRoutes(routesConfig, routerMap) {
+function parseRoutes (routesConfig, routerMap) {
   let routes = [];
   routesConfig.forEach(item => {
     // 获取注册在 routerMap 中的 router，初始化 routeCfg
     let router = undefined, routeCfg = {};
     if (typeof item === "string") {
       router = routerMap[item];
-      routeCfg = {path: (router && router.path) || item, router: item};
+      routeCfg = { path: (router && router.path) || item, router: item };
     } else if (typeof item === "object") {
       router = routerMap[item.router];
       routeCfg = item;
     }
     if (!router) {
-      console.warn(`can't find register for router ${routeCfg.router}, please register it in advance.`);
-      router = typeof item === "string" ? {path: item, name: item} : item;
+      console.warn(`未找到路由${routeCfg.router}, 请先在routermap.Js中注册它.`);
+      router = typeof item === "string" ? { path: item, name: item } : item;
     }
     // 从 router 和 routeCfg 解析路由
     const meta = {
@@ -73,7 +73,7 @@ function parseRoutes(routesConfig, routerMap) {
       name: routeCfg.name || router.name,
       component: router.component,
       redirect: routeCfg.redirect || router.redirect,
-      meta: {...meta, authority: meta.authority || "*"}
+      meta: { ...meta, authority: meta.authority || "*" }
     };
     if (routeCfg.invisible || router.invisible) {
       route.meta.invisible = true;
@@ -90,7 +90,7 @@ function parseRoutes(routesConfig, routerMap) {
  * 加载路由
  * @param routesConfig {RouteConfig[]} 路由配置
  */
-function loadRoutes(routesConfig) {
+function loadRoutes (routesConfig) {
   // 兼容 0.6.1 以下版本
   /** ************* 兼容 version < v0.6.1 *****************/
   if (arguments.length > 0) {
@@ -104,7 +104,7 @@ function loadRoutes(routesConfig) {
   /** ************* 兼容 version < v0.6.1 *****************/
 
   // 应用配置
-  const {router, store, i18n} = appOptions;
+  const { router, store, i18n } = appOptions;
 
   // 如果 routesConfig 有值，则更新到本地，否则从本地获取
   if (routesConfig) {
@@ -119,9 +119,14 @@ function loadRoutes(routesConfig) {
       const routes = parseRoutes(routesConfig, routerMap);
       const finalRoutes = mergeRoutes(basicOptions.routes, routes);
       formatRoutes(finalRoutes);
-      router.options = {...router.options, routes: finalRoutes};
-      router.matcher = new Router({...router.options, routes:[]}).matcher;
+      router.options = { ...router.options, routes: finalRoutes };
+      router.matcher = new Router({ ...router.options, routes: [] }).matcher;
+      // 临时关闭console.warn
+      let warn = console.warn;
+      console.warn = function () { };
       router.addRoutes(finalRoutes);
+      // 还原console.warn
+      console.warn = warn;
     }
   }
   // 提取路由国际化数据
@@ -140,7 +145,7 @@ function loadRoutes(routesConfig) {
  * @param source {Route[]}
  * @returns {Route[]}
  */
-function mergeRoutes(target, source) {
+function mergeRoutes (target, source) {
   const routesMap = {};
   target.forEach(item => routesMap[item.path] = item);
   source.forEach(item => routesMap[item.path] = item);
@@ -153,7 +158,7 @@ function mergeRoutes(target, source) {
  * @param source {Route[]}
  * @returns {Route[]}
  */
-function deepMergeRoutes(target, source) {
+function deepMergeRoutes (target, source) {
   // 映射路由数组
   const mapRoutes = routes => {
     const routesMap = {};
@@ -189,9 +194,9 @@ function deepMergeRoutes(target, source) {
  * 格式化路由
  * @param routes 路由配置
  */
-function formatRoutes(routes) {
+function formatRoutes (routes) {
   routes.forEach(route => {
-    const {path} = route;
+    const { path } = route;
     if (!path.startsWith("/") && path !== "*") {
       route.path = "/" + path;
     }
@@ -204,19 +209,19 @@ function formatRoutes(routes) {
  * @param routes 路由
  * @param pAuthorities 父级路由权限配置集合
  */
-function formatAuthority(routes, pAuthorities = []) {
+function formatAuthority (routes, pAuthorities = []) {
   routes.forEach(route => {
     const meta = route.meta;
-    const defaultAuthority = pAuthorities[pAuthorities.length - 1] || {permission: "*"};
+    const defaultAuthority = pAuthorities[pAuthorities.length - 1] || { permission: "*" };
     if (meta) {
       let authority = {};
       if (!meta.authority) {
         authority = defaultAuthority;
-      }else if (typeof meta.authority === "string") {
+      } else if (typeof meta.authority === "string") {
         authority.permission = meta.authority;
       } else if (typeof meta.authority === "object") {
         authority = meta.authority;
-        const {role} = authority;
+        const { role } = authority;
         if (typeof role === "string") {
           authority.role = [role];
         }
@@ -227,7 +232,7 @@ function formatAuthority(routes, pAuthorities = []) {
       meta.authority = authority;
     } else {
       const authority = defaultAuthority;
-      route.meta = {authority};
+      route.meta = { authority };
     }
     route.meta.pAuthorities = pAuthorities;
     if (route.children) {
@@ -241,7 +246,7 @@ function formatAuthority(routes, pAuthorities = []) {
  * @param path
  * @returns {*}
  */
-function getI18nKey(path) {
+function getI18nKey (path) {
   const keys = path.split("/").filter(item => !item.startsWith(":") && item != "");
   keys.push("name");
   return keys.join(".");
@@ -252,9 +257,9 @@ function getI18nKey(path) {
  * @param guards
  * @param options
  */
-function loadGuards(guards, options) {
-  const {beforeEach, afterEach} = guards;
-  const {router} = options;
+function loadGuards (guards, options) {
+  const { beforeEach, afterEach } = guards;
+  const { router } = options;
   beforeEach.forEach(guard => {
     if (guard && typeof guard === "function") {
       router.beforeEach((to, from, next) => guard(to, from, next, options));
@@ -267,4 +272,4 @@ function loadGuards(guards, options) {
   });
 }
 
-export {parseRoutes, loadRoutes, formatAuthority, getI18nKey, loadGuards, deepMergeRoutes, formatRoutes, setAppOptions};
+export { parseRoutes, loadRoutes, formatAuthority, getI18nKey, loadGuards, deepMergeRoutes, formatRoutes, setAppOptions };

@@ -1,6 +1,9 @@
-import TabsView from "@/layouts/tabs/TabsView";
-import BlankView from "@/layouts/BlankView";
-import PageView from "@/layouts/PageView";
+// 视图组件
+const view = {
+  tabs: () => import("@/layouts/tabs"),
+  blank: () => import("@/layouts/BlankView"),
+  page: () => import("@/layouts/PageView")
+};
 
 // 路由配置 @router
 const options = {
@@ -23,40 +26,20 @@ const options = {
     {
       path: "/",
       name: "首页",
-      component: TabsView,
+      component: view.tabs,
       redirect: "/login",
       children: [
         {
           path: "dashboard",
           name: "工作台",
-          meta: {
-            icon: "dashboard"
-          },
-          component: BlankView,
-          children: [
-            {
-              path: "workplace",
-              name: "工作台",
-              meta: {
-                page: {
-                  closable: false
-                }
-              },
-              component: () => import("@/pages/dashboard/workplace"),
-            },
-            {
-              path: "analysis",
-              name: "分析页",
-              component: () => import("@/pages/dashboard/analysis"),
-            }
-          ]
+          meta: { icon: "dashboard" },
+          component: () => import("@/pages/dashboard/workplace"),
         },
-
         {
           path: "PermissionControl",
           name: "权限控制",
           meta: { icon: "control" },
-          component: PageView,
+          component: view.page,
           children: [
             {
               path: "user",
@@ -86,7 +69,7 @@ const options = {
               cacheAble: false
             }
           },
-          component: PageView,
+          component: view.page,
           children: [
             {
               path: "basic",
@@ -111,7 +94,7 @@ const options = {
           meta: {
             icon: "table"
           },
-          component: PageView,
+          component: view.page,
           children: [
             {
               path: "query",
@@ -170,7 +153,7 @@ const options = {
           meta: {
             icon: "profile"
           },
-          component: BlankView,
+          component: view.blank,
           children: [
             {
               path: "basic",
@@ -190,7 +173,7 @@ const options = {
           meta: {
             icon: "check-circle-o",
           },
-          component: PageView,
+          component: view.page,
           children: [
             {
               path: "success",
@@ -210,7 +193,7 @@ const options = {
           meta: {
             icon: "warning",
           },
-          component: BlankView,
+          component: view.blank,
           children: [
             {
               path: "404",
@@ -235,7 +218,7 @@ const options = {
           meta: {
             icon: "appstore-o"
           },
-          component: PageView,
+          component: view.page,
           children: [
             {
               path: "taskCard",

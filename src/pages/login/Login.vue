@@ -2,71 +2,42 @@
   <common-layout>
     <div class="top">
       <div class="header">
-        <img alt="logo"
-             class="logo"
-             src="@/assets/img/logo.png" />
+        <img alt="logo" class="logo" src="@/assets/img/logo.png" />
         <span class="title">{{systemName}}</span>
       </div>
       <div class="desc">some text</div>
     </div>
     <div class="login">
-      <a-form @submit="onSubmit"
-              :form="form">
-        <a-tabs size="large"
-                :tabBarStyle="{textAlign: 'center'}"
-                style="padding: 0 2px;">
-          <a-tab-pane tab="账户密码登录"
-                      key="1">
-            <a-alert type="error"
-                     :closable="true"
-                     v-show="error"
-                     :message="error"
-                     showIcon
-                     style="margin-bottom: 24px;" />
+      <a-form @submit="onSubmit" :form="form">
+        <a-tabs size="large" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;">
+          <a-tab-pane tab="账户密码登录" key="1">
+            <a-alert type="error" :closable="true" v-show="error" :message="error" showIcon style="margin-bottom: 24px;" />
             <a-form-item>
-              <a-input autocomplete="autocomplete"
-                       size="large"
-                       placeholder="请输入账户名"
-                       v-decorator="['name', {rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]">
-                <a-icon slot="prefix"
-                        type="user" />
+              <a-input autocomplete="autocomplete" size="large" placeholder="请输入账户名" v-decorator="['name', {rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]">
+                <a-icon slot="prefix" type="user" />
               </a-input>
             </a-form-item>
             <a-form-item>
-              <a-input size="large"
-                       placeholder="请输入密码"
-                       autocomplete="autocomplete"
-                       type="password"
-                       v-decorator="['password', {rules: [{ required: true, message: '请输入密码', whitespace: true}]}]">
-                <a-icon slot="prefix"
-                        type="lock" />
+              <a-input size="large" placeholder="请输入密码" autocomplete="autocomplete" type="password" v-decorator="['password', {rules: [{ required: true, message: '请输入密码', whitespace: true}]}]">
+                <a-icon slot="prefix" type="lock" />
               </a-input>
             </a-form-item>
           </a-tab-pane>
-          <!-- <a-tab-pane tab="手机号登录"
-                      key="2">
+          <!-- <a-tab-pane tab="手机号登录" key="2">
             <a-form-item>
-              <a-input size="large"
-                       placeholder="mobile number">
-                <a-icon slot="prefix"
-                        type="mobile" />
+              <a-input size="large" placeholder="请输入登录手机号">
+                <a-icon slot="prefix" type="mobile" />
               </a-input>
             </a-form-item>
             <a-form-item>
-              <a-row :gutter="8"
-                     style="margin: 0 -4px">
+              <a-row :gutter="8" style="margin: 0 -4px">
                 <a-col :span="16">
-                  <a-input size="large"
-                           placeholder="captcha">
-                    <a-icon slot="prefix"
-                            type="mail" />
+                  <a-input size="large" placeholder="请输入短信验证码">
+                    <a-icon slot="prefix" type="mail" />
                   </a-input>
                 </a-col>
-                <a-col :span="8"
-                       style="padding-left: 4px">
-                  <a-button style="width: 100%"
-                            class="captcha-button"
-                            size="large">获取验证码</a-button>
+                <a-col :span="8" style="padding-left: 4px">
+                  <a-button style="width: 100%" class="captcha-button" size="large" @click="getVerifyCode">获取验证码</a-button>
                 </a-col>
               </a-row>
             </a-form-item>
@@ -77,11 +48,7 @@
           <!-- <a style="float: right">忘记密码</a> -->
         </div>
         <a-form-item>
-          <a-button :loading="logging"
-                    style="width: 100%;margin-top: 24px"
-                    size="large"
-                    htmlType="submit"
-                    type="primary">登录</a-button>
+          <a-button :loading="logging" style="width: 100%;margin-top: 24px" size="large" htmlType="submit" type="primary">登录</a-button>
         </a-form-item>
         <div>
           <!-- 其他登录方式
@@ -92,7 +59,7 @@
           <a-icon class="icon"
                   type="weibo-circle" />
           <router-link style="float: right"
-                       to="/dashboard/workplace">注册账户</router-link> -->
+                       to="/dashboard">注册账户</router-link> -->
         </div>
       </a-form>
     </div>
@@ -103,10 +70,10 @@
 import CommonLayout from "@/layouts/CommonLayout";
 import {
   login,
-  // getRoutesConfig
+  getRoutesConfig
 } from "@/services/user";
 import { setAuthorization } from "@/utils/request";
-// import { loadRoutes } from "@/utils/routerUtil";
+import { loadRoutes } from "@/utils/routerUtil";
 import { mapMutations } from "vuex";
 export default {
   name: "Login",
@@ -152,7 +119,6 @@ export default {
           position: "",
           avatar: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png"
         });
-
         // 设置token
         setAuthorization({
           token: loginRes.result.token
@@ -162,18 +128,47 @@ export default {
         // this.setPermissions(permissions)
         // this.setRoles(roles)
 
-        // 获取路由配置
-        // getRoutesConfig().then(result => {
-        //   const routesConfig = result.data.data
-        //   loadRoutes(routesConfig)
-        this.$router.push("/dashboard/workplace");
-        this.$message.success(loginRes.msg, 3);
-        // })
-
+        // 获取异步路由
+        getRoutesConfig().then(res => {
+          // 加载异步路由
+          loadRoutes([{
+            router: "root",
+            children: [
+              "dashboard",
+              ...res.data.data.map(item => {
+                return {
+                  router: item.url,
+                  children: this.childrenFor(item)
+                };
+              })]
+          }]);
+          // 跳转到落地页
+          this.$router.push("/dashboard");
+          this.$message.success(loginRes.msg, 3);
+        });
       } else {
         this.error = loginRes.msg;
       }
-    }
+    },
+    // 子层级循环函数
+    childrenFor (item) {
+      if (item.childrenList) {
+        let list = item.childrenList.map(Citem => {
+          return {
+            router: Citem.url,
+            children: this.childrenFor(Citem)
+          };
+        });
+        return list;
+      } else {
+        return [];
+      }
+    },
+    // 获取短信验证码
+    getVerifyCode () {
+
+    },
+
   }
 };
 </script>

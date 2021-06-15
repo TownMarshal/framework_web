@@ -1,5 +1,11 @@
+/*
+ * @LastEditTime: 2021-06-15 13:39:57
+ * @Description: 异步路由配置
+ * @Tags: 
+ * @FilePath: /vue-antd-admin/src/router/async/config.async.js
+ */
 import routerMap from "./router.map";
-import {parseRoutes} from "@/utils/routerUtil";
+import { parseRoutes } from "@/utils/routerUtil";
 
 // 异步路由配置
 const routesConfig = [
@@ -14,7 +20,7 @@ const routesConfig = [
     router: "exp403",
     path: "/403",
     name: "403"
-  }
+  },
 ];
 
 const options = {
