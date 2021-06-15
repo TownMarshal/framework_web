@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-15 16:53:21
+ * @LastEditTime: 2021-06-15 16:55:39
  * @Description: 个人中心
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/layouts/header/HeaderAvatar.vue
@@ -85,7 +85,6 @@ export default {
             password: this.form.password,
             id: this.$store.state.account.user.id
           }).then((res) => {
-            console.log(res);
             if (res.data.code == 200) {
               this.$message.success(res.data.msg);
               this.visible = false;

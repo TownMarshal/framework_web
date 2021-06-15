@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-15 15:30:47
+ * @LastEditTime: 2021-06-15 17:00:22
  * @Description: @用户管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/user.vue
@@ -39,7 +39,7 @@
 
       <a-modal v-model="visible" :title="modalType == 'create'? '创建用户' : '修改用户信息'" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmit" @cancel="resetForm">
         <div style="max-height:70vh;overflow-y:scroll;">
-          <a-form-model ref="ruleForm" :model="editTarget" :rules="rules">
+          <a-form-model ref="ruleForm" :model="editTarget" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
             <a-form-model-item label="昵称" prop="loginName">
               <a-input v-model="editTarget.loginName" />
             </a-form-model-item>

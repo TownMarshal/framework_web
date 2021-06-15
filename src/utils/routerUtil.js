@@ -40,7 +40,7 @@ function parseRoutes (routesConfig, routerMap) {
       routeCfg = item;
     }
     if (!router) {
-      console.warn(`未找到路由${routeCfg.router}, 请先在async/router.map.js中注册它.`);
+      console.warn(`未找到路由“${routeCfg.router}”, 请先在async/router.map.js中注册它,如果此路由是模拟权限请忽略`);
       router = typeof item === "string" ? { path: item, name: item } : item;
       // 如果路由不存在 不继续执行
       return false;
