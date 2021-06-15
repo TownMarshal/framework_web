@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-10 17:31:54
+ * @LastEditTime: 2021-06-15 16:24:55
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/services/user.js
@@ -47,7 +47,7 @@ export function logout (options) {
 
 
 // 保存信息用户
-async function save (params = {}) {
+export async function save (params = {}) {
   if (params.id) {
     return request(USER_UPDATE, "post", params);
   } else {
@@ -55,12 +55,12 @@ async function save (params = {}) {
   }
 }
 // 查询路由树
-async function query (params = {}) {
+export async function query (params = {}) {
   return request(USER_SELECT, "post", params);
 }
 
 // 移除路由
-async function remove (param) {
+export async function remove (param) {
   return request(USER_DELETE, "delete", {
     id: typeof param == "object" ? param.id : param
   });

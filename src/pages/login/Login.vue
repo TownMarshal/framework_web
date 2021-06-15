@@ -112,9 +112,12 @@ export default {
       this.logging = false;
       const loginRes = res.data;
       if (loginRes.status == 200) {
+        // 保存用户信息
         this.setUser({
-          name: loginRes.result.username,
-          phone: loginRes.result.phone,
+          name: loginRes.result.sysUserTbl.userName,
+          phone: loginRes.result.sysUserTbl.phone,
+          id: loginRes.result.sysUserTbl.id,
+          loginName: loginRes.result.sysUserTbl.loginName,
           address: "",
           position: "",
           avatar: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png"

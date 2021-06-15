@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-15 14:29:04
+ * @LastEditTime: 2021-06-15 15:34:47
  * @Description: 
  * @Tags: @api @baseURL
  * @FilePath: /vue-antd-admin/src/services/api.js
@@ -13,12 +13,11 @@ const BASE_URL = process.env.NODE_ENV === "production" ?
   process.env.VUE_APP_API_BASE_URL : API_PROXY_PREFIX;
 
 module.exports = {
-  
+  // ================ = 框架基础 = =====================
   // 登录
   LOGIN: `${BASE_URL}/login`,
   // 获取异步路由
   ROUTES: `${BASE_URL}/sysPermission/selectTreeByUserId`,
-
   // ================ = 用户管理 = =====================
   USER_ADD: `${BASE_URL}/sysUser/add`,
   USER_DELETE: `${BASE_URL}/sysUser/delete`,
