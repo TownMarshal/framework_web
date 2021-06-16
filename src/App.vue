@@ -1,11 +1,12 @@
 <!--
- * @LastEditTime: 2021-06-16 10:25:57
+ * @LastEditTime: 2021-06-16 15:02:23
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/App.vue
 -->
 <template>
-  <a-config-provider :locale="locale" :get-popup-container="popContainer">
+  <a-config-provider :locale="locale"
+                     :get-popup-container="popContainer">
     <router-view />
   </a-config-provider>
 </template>

@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-16 10:25:03
+ * @LastEditTime: 2021-06-16 14:52:55
  * @Description: @用户管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/user.vue
@@ -8,52 +8,96 @@
   <a-card>
     <div>
       <a-space class="operator">
-        <a-button @click="addNew" type="primary" icon="plus">新 建</a-button>
-        <a-button @click="reload" type="default" icon="reload">刷 新</a-button>
+        <a-button @click="addNew"
+                  type="primary"
+                  icon="plus">新 建</a-button>
+        <a-button @click="reload"
+                  type="default"
+                  icon="reload">刷 新</a-button>
       </a-space>
 
-      <a-table :columns="columns" :dataSource="dataSource" :row-key="record => record.id" :loading="loading" @change="handleTableChange" size="small" :pagination="pagination">
+      <a-table :columns="columns"
+               :dataSource="dataSource"
+               :row-key="record => record.id"
+               :loading="loading"
+               @change="handleTableChange"
+               size="small"
+               :pagination="pagination">
 
-        <div slot="levels" slot-scope="val">
-          <a-tag color="#FF4D4D" v-if="(val == 0)">管理员</a-tag>
-          <a-tag color="#1890FF" v-else-if="(val == 1)">普通用户</a-tag>
+        <div slot="levels"
+             slot-scope="val">
+          <a-tag color="#FF4D4D"
+                 v-if="(val == 0)">管理员</a-tag>
+          <a-tag color="#1890FF"
+                 v-else-if="(val == 1)">普通用户</a-tag>
           <span v-else>{{val}}</span>
         </div>
 
-        <div slot="action" slot-scope="record">
-          <a-button type="link" icon="edit" @click="editUser(record)" :disabled="record.userName == 'admin'">编辑信息</a-button>
+        <div slot="action"
+             slot-scope="record">
+          <a-button type="link"
+                    icon="edit"
+                    @click="editUser(record)"
+                    :disabled="record.userName == 'admin'">编辑信息</a-button>
 
-          <a-button type="link" icon="plus" @click="editRole(record)" :disabled="record.userName == 'admin'">设置角色</a-button>
+          <a-button type="link"
+                    icon="plus"
+                    @click="editRole(record)"
+                    :disabled="record.userName == 'admin'">设置角色</a-button>
 
-          <a-popconfirm title="确认删除吗?" @confirm="deleteRecord(record.id)" :disabled="record.userName == 'admin'">
-            <a-button type="link" icon="delete" :disabled="record.userName == 'admin'">删除</a-button>
+          <a-popconfirm title="确认删除吗?"
+                        @confirm="deleteRecord(record.id)"
+                        :disabled="record.userName == 'admin'">
+            <a-button type="link"
+                      icon="delete"
+                      :disabled="record.userName == 'admin'">删除</a-button>
           </a-popconfirm>
         </div>
 
       </a-table>
 
-      <a-modal v-model="visible" :title="modalType == 'create'? '创建用户' : '修改用户信息'" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmit" @cancel="resetForm">
+      <a-modal v-model="visible"
+               :title="modalType == 'create'? '创建用户' : '修改用户信息'"
+               :width="$store.state.setting.isMobile ? '98vw':'700px'"
+               @ok="onSubmit"
+               @cancel="resetForm">
         <div style="max-height:70vh;overflow-y:scroll;">
-          <a-form-model ref="ruleForm" :model="editTarget" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
-            <a-form-model-item label="昵称" prop="loginName">
+          <a-form-model ref="ruleForm"
+                        :model="editTarget"
+                        :rules="rules"
+                        :label-col="{ span: 6 }"
+                        :wrapper-col="{ span: 14 }">
+            <a-form-model-item label="昵称"
+                               prop="loginName">
               <a-input v-model="editTarget.loginName" />
             </a-form-model-item>
-            <a-form-model-item label="登录账号" prop="userName">
-              <a-input v-model="editTarget.userName" :disabled="modalType != 'create'" />
+            <a-form-model-item label="登录账号"
+                               prop="userName">
+              <a-input v-model="editTarget.userName"
+                       :disabled="modalType != 'create'" />
             </a-form-model-item>
-            <a-form-model-item label="手机号" prop="phone">
+            <a-form-model-item label="手机号"
+                               prop="phone">
               <a-input v-model="editTarget.phone" />
             </a-form-model-item>
-            <a-form-model-item label="密码" prop="password">
+            <a-form-model-item label="密码"
+                               prop="password">
               <a-input v-model="editTarget.password" />
             </a-form-model-item>
           </a-form-model>
         </div>
       </a-modal>
 
-      <a-modal v-model="RoleVisible" title="设置角色" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmitRole">
-        <a-select mode="multiple" style="width: 100%" placeholder="选择角色" v-model="selectRole">
-          <a-select-option v-for="i in RoleList" :key="i.id">
+      <a-modal v-model="RoleVisible"
+               title="设置角色"
+               :width="$store.state.setting.isMobile ? '98vw':'700px'"
+               @ok="onSubmitRole">
+        <a-select mode="multiple"
+                  style="width: 100%"
+                  placeholder="选择角色"
+                  v-model="selectRole">
+          <a-select-option v-for="i in RoleList"
+                           :key="i.id">
             {{i.roleDesc}} --- {{i.roleName}}
           </a-select-option>
         </a-select>
@@ -84,7 +128,6 @@ export default {
     role.query({ pageSize: 100 }).then(res => {
       this.RoleList = res.data.data;
     });
-
   },
   data () {
     return {
@@ -211,6 +254,7 @@ export default {
         }
       });
     },
+
     // 还原表单
     resetForm () {
       this.$refs.ruleForm.resetFields();

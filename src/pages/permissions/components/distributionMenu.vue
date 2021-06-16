@@ -1,13 +1,22 @@
 <!--
- * @LastEditTime: 2021-06-10 15:58:16
+ * @LastEditTime: 2021-06-16 14:55:58
  * @Description: 分配路由的组件
  * @Tags: 
- * @FilePath: /vue-antd-admin/src/pages/components/permission/distributionMenu.vue
+ * @FilePath: /vue-antd-admin/src/pages/permissions/components/distributionMenu.vue
 -->
 <template>
   <div>
     <!-- 数据展示表格 -->
-    <a-table :columns="columns" :data-source="data" :row-key="record =>  record.id" :loading="loading" :scroll="scroll" size="small" bordered childrenColumnName="childrenList" :pagination="false" :row-selection="{ 
+    <a-table :columns="columns"
+             :data-source="data"
+             :row-key="record =>  record.id"
+             :loading="loading"
+             :scroll="scroll"
+             size="small"
+             bordered
+             childrenColumnName="childrenList"
+             :pagination="false"
+             :row-selection="{ 
       selectedRowKeys: selectedRowKeys, 
       onChange: onChange,
       hideDefaultSelections:true,

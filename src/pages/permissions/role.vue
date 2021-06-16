@@ -1,22 +1,39 @@
 <!--
- * @LastEditTime: 2021-06-15 17:28:29
+ * @LastEditTime: 2021-06-16 14:54:08
  * @Description: @角色管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/role.vue
 -->
 <template>
   <a-card>
-    <a-button type="primary" icon="reload" @click="reload" style="margin:2px;">刷 新</a-button>
+    <a-button type="primary"
+              icon="reload"
+              @click="reload"
+              style="margin:2px;">刷 新</a-button>
 
-    <a-button type="default" icon="plus" @click="showModal" style="margin:2px;">新建角色</a-button>
+    <a-button type="default"
+              icon="plus"
+              @click="showModal"
+              style="margin:2px;">新建角色</a-button>
     <!-- 新建角色表单 模态窗口 -->
-    <a-modal v-model="visible" title="新增/修改角色信息" width="40vw" @ok="onSubmit" @cancel="resetForm" okText="保存">
+    <a-modal v-model="visible"
+             title="新增/修改角色信息"
+             width="40vw"
+             @ok="onSubmit"
+             @cancel="resetForm"
+             okText="保存">
       <div style="max-height:70vh;overflow-y:scroll;">
-        <a-form-model ref="ruleForm" :model="editTarget" :label-col="labelCol" :rules="rules" :wrapper-col="wrapperCol">
-          <a-form-model-item label="角色名称" prop="roleName">
+        <a-form-model ref="ruleForm"
+                      :model="editTarget"
+                      :label-col="labelCol"
+                      :rules="rules"
+                      :wrapper-col="wrapperCol">
+          <a-form-model-item label="角色名称"
+                             prop="roleName">
             <a-input v-model="editTarget.roleName" />
           </a-form-model-item>
-          <a-form-model-item label="描述" prop="roleDesc">
+          <a-form-model-item label="描述"
+                             prop="roleDesc">
             <a-input v-model="editTarget.roleDesc" />
           </a-form-model-item>
         </a-form-model>
@@ -24,41 +41,82 @@
     </a-modal>
 
     <!-- 数据展示表格 -->
-    <a-table :columns="columns" :data-source="data" :row-key="record => record.id" bordered size="small" @expandedRowsChange="RowsChange" :loading="loading" :expandedRowKeys="expandedRowKeys" @change="handleTableChange" :pagination="pagination">
+    <a-table :columns="columns"
+             :data-source="data"
+             :row-key="record => record.id"
+             bordered
+             size="small"
+             @expandedRowsChange="RowsChange"
+             :loading="loading"
+             :expandedRowKeys="expandedRowKeys"
+             @change="handleTableChange"
+             :pagination="pagination">
       <!-- 自定义操作按钮 -->
-      <div slot="action" slot-scope="record">
-        <a-button type="primary" @click="showModal(record)" style="margin:5px">修改</a-button>
-        <a-button @click="showMenuModal(record)" style="margin:5px">设置权限</a-button>
+      <div slot="action"
+           slot-scope="record">
+        <a-button type="primary"
+                  @click="showModal(record)"
+                  style="margin:5px">修改</a-button>
+        <a-button @click="showMenuModal(record)"
+                  style="margin:5px">设置权限</a-button>
         <!-- <a-button @click="showAllot(record)" style="margin:5px">新增成员</a-button> -->
-        <a-popconfirm title="确认删除该角色?" ok-text="删除" cancel-text="取消" @confirm="deletethis(record)" placement="topLeft">
-          <a-button type="danger" style="margin:5px" :disabled="record.delStatus == 1">删除</a-button>
+        <a-popconfirm title="确认删除该角色?"
+                      ok-text="删除"
+                      cancel-text="取消"
+                      @confirm="deletethis(record)"
+                      placement="topLeft">
+          <a-button type="danger"
+                    style="margin:5px"
+                    :disabled="record.delStatus == 1">删除</a-button>
         </a-popconfirm>
       </div>
-      <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        <a-table :columns="innercolumns" :data-source="record.member" :row-key="record => record.id" style='background:white;' :pagination="false" size="small">
-          <div slot="action" slot-scope="record">
-            <a-popconfirm title="确认移除该成员?" ok-text="移除" cancel-text="取消" @confirm="RomoveUser(record)" placement="topLeft">
+      <p slot="expandedRowRender"
+         slot-scope="record"
+         style="margin: 0">
+        <a-table :columns="innercolumns"
+                 :data-source="record.member"
+                 :row-key="record => record.id"
+                 style='background:white;'
+                 :pagination="false"
+                 size="small">
+          <div slot="action"
+               slot-scope="record">
+            <a-popconfirm title="确认移除该成员?"
+                          ok-text="移除"
+                          cancel-text="取消"
+                          @confirm="RomoveUser(record)"
+                          placement="topLeft">
               <a type="danger">移除成员</a>
             </a-popconfirm>
           </div>
         </a-table>
       </p>
     </a-table>
-    <a-modal v-model="MenuModalShow" title="角色分配菜单" width="50vw" destroyOnClose :footer="null">
+    <a-modal v-model="MenuModalShow"
+             title="角色分配菜单"
+             width="50vw"
+             destroyOnClose
+             :footer="null">
       <!-- 分配菜单组件 -->
-      <distribution-menu querytype="role" :roleid="roleid" />
+      <distribution-menu querytype="role"
+                         :roleid="roleid" />
     </a-modal>
     <!-- destroyOnClose 销毁内部组件 -->
-    <a-modal v-model="ShowAllotUserView" title="角色分配用户" width="50vw" destroyOnClose :footer="null">
+    <a-modal v-model="ShowAllotUserView"
+             title="角色分配用户"
+             width="50vw"
+             destroyOnClose
+             :footer="null">
       <!-- 分配用户组件 -->
-      <DistributionUser :AllotUserViewRoleID="AllotUserViewRoleID" @closeMe="ShowAllotUserView = false" @reload="reload" />
+      <DistributionUser :AllotUserViewRoleID="AllotUserViewRoleID"
+                        @closeMe="ShowAllotUserView = false"
+                        @reload="reload" />
     </a-modal>
   </a-card>
 </template>
 
 <script>
 import { role } from "@/services";
-
 import distributionMenu from "@/pages/permissions/components/distributionMenu.vue";
 import DistributionUser from "@/pages/permissions/components/distributionUser.vue";
 

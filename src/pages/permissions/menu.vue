@@ -1,39 +1,73 @@
 <!--
- * @LastEditTime: 2021-06-15 15:30:38
+ * @LastEditTime: 2021-06-16 14:54:50
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/menu.vue
 -->
 <template>
   <a-card :bordered="false">
-    <a-button type="primary" icon="reload" @click="reload" style="margin:5px 5px 5px 0;">刷 新</a-button>
-    <a-button type="default" icon="plus" @click="showModal({id:1})" style="margin:5px 5px 5px 0;">新建路由</a-button>
+    <a-button type="primary"
+              icon="reload"
+              @click="reload"
+              style="margin:5px 5px 5px 0;">刷 新</a-button>
+    <a-button type="default"
+              icon="plus"
+              @click="showModal({id:1})"
+              style="margin:5px 5px 5px 0;">新建路由</a-button>
 
     <!-- 路由编辑模态窗口 -->
-    <a-modal v-model="visible" title="新增/修改路由信息" width="40vw" @ok="onSubmit" @cancel="resetForm" okText="保存">
+    <a-modal v-model="visible"
+             title="新增/修改路由信息"
+             width="40vw"
+             @ok="onSubmit"
+             @cancel="resetForm"
+             okText="保存">
       <div style="max-height:70vh;overflow-y:scroll;">
-        <a-form-model ref="ruleForm" :model="editTarget" :label-col="labelCol" :rules="rules" :wrapper-col="wrapperCol">
-          <a-form-model-item label="别名" prop="name">
+        <a-form-model ref="ruleForm"
+                      :model="editTarget"
+                      :label-col="labelCol"
+                      :rules="rules"
+                      :wrapper-col="wrapperCol">
+          <a-form-model-item label="别名"
+                             prop="name">
             <a-input v-model="editTarget.name" />
           </a-form-model-item>
-          <a-form-model-item label="路由" prop="url">
+          <a-form-model-item label="路由"
+                             prop="url">
             <a-input v-model="editTarget.url" />
           </a-form-model-item>
-          <a-form-model-item label="排序" prop="orderNum">
+          <a-form-model-item label="排序"
+                             prop="orderNum">
             <a-input v-model.number="editTarget.orderNum" />
           </a-form-model-item>
-          <a-input v-model="editTarget.parentId" disabled />
+          <a-input v-model="editTarget.parentId"
+                   disabled />
         </a-form-model>
       </div>
     </a-modal>
 
-    <a-table :columns="columns" :data-source="tableData" :row-key="record => record.id" bordered :pagination="false" :loading="loading" size="small" childrenColumnName="childrenList">
+    <a-table :columns="columns"
+             :data-source="tableData"
+             :row-key="record => record.id"
+             bordered
+             :pagination="false"
+             :loading="loading"
+             size="small"
+             childrenColumnName="childrenList">
       <!-- 自定义操作按钮 -->
-      <div slot="action" slot-scope="record">
-        <a-button type="primary" @click="showModal(record)" style="margin:5px" v-if="record.childrenList">
+      <div slot="action"
+           slot-scope="record">
+        <a-button type="primary"
+                  @click="showModal(record)"
+                  style="margin:5px"
+                  v-if="record.childrenList">
           创建子路由</a-button>
-        <a-button @click="showModal(record,true)" style="margin:5px">修改</a-button>
-        <a-button type="danger" style="margin:5px" @click="deletethis(record)" v-if="$permissions('删除菜单')">删除</a-button>
+        <a-button @click="showModal(record,true)"
+                  style="margin:5px">修改</a-button>
+        <a-button type="danger"
+                  style="margin:5px"
+                  @click="deletethis(record)"
+                  v-if="$permissions('删除菜单')">删除</a-button>
       </div>
     </a-table>
 
