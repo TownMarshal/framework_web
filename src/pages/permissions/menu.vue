@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-16 14:54:50
+ * @LastEditTime: 2021-06-16 17:06:40
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/menu.vue
@@ -84,7 +84,7 @@ export default {
 
       // 是否显示模态修改窗
       visible: false,
-      // 编辑路由的表单布局 
+      // 编辑路由的表单布局
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       // 当前正在修改的row
@@ -92,11 +92,21 @@ export default {
       rules: {
         name: [{ required: true, message: "请输入", trigger: "change" }],
         url: [{ required: true, message: "请输入", trigger: "change" }],
-        orderNum: [{
-          required: true, message: "请输入", trigger: "change", type: "number",
-        }, {
-          min: 0, max: 255, trigger: "change", type: "number", message: "最小0最大255"
-        }]
+        orderNum: [
+          {
+            required: true,
+            message: "请输入",
+            trigger: "change",
+            type: "number",
+          },
+          {
+            min: 0,
+            max: 255,
+            trigger: "change",
+            type: "number",
+            message: "最小0最大255",
+          },
+        ],
       },
       loading: false,
       // 表格列
@@ -104,7 +114,13 @@ export default {
         { title: "别名", dataIndex: "name", key: "name" },
         { title: "路由", dataIndex: "url", key: "url" },
         { title: "排序", dataIndex: "orderNum", key: "orderNum", width: 100 },
-        { title: "操作", dataIndex: "", key: "x", width: 300, scopedSlots: { customRender: "action" } },
+        {
+          title: "操作",
+          dataIndex: "",
+          key: "x",
+          width: 300,
+          scopedSlots: { customRender: "action" },
+        },
       ],
       tableData: [],
     };
@@ -118,27 +134,29 @@ export default {
     },
     fetch () {
       this.loading = true;
-      routerTab.query().then(res => {
+      routerTab.query().then((res) => {
         this.tableData = res.data.data;
         this.loading = false;
       });
     },
     // 显示修改窗口
     showModal (editTarget = {}, edit = false) {
-      if (edit) { // 修改
+      if (edit) {
+        // 修改
         this.editTarget = JSON.parse(JSON.stringify(editTarget));
-      } else { // 创建
+      } else {
+        // 创建
         this.editTarget = {
-          parentId: editTarget.id
+          parentId: editTarget.id,
         };
       }
       this.visible = true;
     },
     // 提交修改
     onSubmit () {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          routerTab.save(this.editTarget).then(res => {
+          routerTab.save(this.editTarget).then((res) => {
             this.visible = false;
             this.reload();
           });
@@ -157,13 +175,13 @@ export default {
       this.$confirm({
         title: `确认删除 ${editTarget.name} 路由吗？`,
         onOk: function () {
-          routerTab.remove(editTarget.id).then(res => {
+          routerTab.remove(editTarget.id).then((res) => {
             this.reload();
           });
-        }.bind(this)
+        }.bind(this),
       });
     },
-  }
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-16 16:49:49
+ * @LastEditTime: 2021-06-16 17:09:29
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/README.md
@@ -39,6 +39,7 @@ $ npm run serve
 安装插件 Prettier 
 安装插件 Vetur 
 设置 vue 默认格式化插件为 Vetur
+其他文件格式选择 Prettier
 ```
 
 ## 关于Eslint
