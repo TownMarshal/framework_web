@@ -1,15 +1,7 @@
 <template>
   <admin-layout>
     <contextmenu :itemList="menuItemList" :visible.sync="menuVisible" @select="onMenuSelect" />
-    <tabs-head
-        v-if="multiPage"
-        :active="activePage"
-        :page-list="pageList"
-        @change="changePage"
-        @close="remove"
-        @refresh="refresh"
-        @contextmenu="onContextmenu"
-    />
+    <tabs-head v-if="multiPage" :active="activePage" :page-list="pageList" @change="changePage" @close="remove" @refresh="refresh" @contextmenu="onContextmenu" />
     <div :class="['tabs-view-content', layout, pageWidth]" :style="`margin-top: ${multiPage ? -24 : 0}px`">
       <page-toggle-transition :disabled="animate.disabled" :animate="animate.name" :direction="animate.direction">
         <a-keep-alive :exclude-keys="excludeKeys" v-if="multiPage && cachePage" v-model="clearCaches">
@@ -25,15 +17,15 @@
 import AdminLayout from "@/layouts/AdminLayout";
 import Contextmenu from "@/components/menu/Contextmenu";
 import PageToggleTransition from "@/components/transition/PageToggleTransition";
-import {mapState, mapMutations} from "vuex";
-import {getI18nKey} from "@/utils/routerUtil";
+import { mapState, mapMutations } from "vuex";
+import { getI18nKey } from "@/utils/routerUtil";
 import AKeepAlive from "@/components/cache/AKeepAlive";
 import TabsHead from "@/layouts/tabs/TabsHead";
 
 export default {
   name: "TabsView",
   i18n: require("./i18n"),
-  components: {TabsHead, PageToggleTransition, Contextmenu, AdminLayout , AKeepAlive },
+  components: { TabsHead, PageToggleTransition, Contextmenu, AdminLayout, AKeepAlive },
   data () {
     return {
       clearCaches: [],
@@ -46,7 +38,7 @@ export default {
   },
   computed: {
     ...mapState("setting", ["multiPage", "cachePage", "animate", "layout", "pageWidth"]),
-    menuItemList() {
+    menuItemList () {
       return [
         { key: "1", icon: "vertical-right", text: this.$t("closeLeft") },
         { key: "2", icon: "vertical-left", text: this.$t("closeRight") },
@@ -54,7 +46,7 @@ export default {
         { key: "4", icon: "sync", text: this.$t("refresh") },
       ];
     },
-    tabsOffset() {
+    tabsOffset () {
       return this.multiPage ? 24 : 0;
     }
   },
@@ -76,7 +68,7 @@ export default {
   mounted () {
     this.correctPageMinHeight(-this.tabsOffset);
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.removeListener();
     this.correctPageMinHeight(this.tabsOffset);
   },
@@ -88,11 +80,18 @@ export default {
     "$route": function (newRoute) {
       this.activePage = newRoute.path;
       const page = this.pageList.find(item => item.path === newRoute.path);
+      // 如果不是多页签模式
       if (!this.multiPage) {
+        // 当前页面列表
         this.pageList = [this.createPage(newRoute)];
-      } else if (page) {
+      }
+      // 如果当前有相同路径的页面
+      else if (page) {
+        // 修改当前已有页面的全部路径
         page.fullPath = newRoute.fullPath;
-      } else if (!page) {
+      }
+      // 如果没有已有页面 页面列表新增
+      else if (!page) {
         this.pageList.push(this.createPage(newRoute));
       }
       if (this.multiPage) {
@@ -109,7 +108,7 @@ export default {
         this.addListener();
       }
     },
-    tabsOffset(newVal, oldVal) {
+    tabsOffset (newVal, oldVal) {
       this.correctPageMinHeight(oldVal - newVal);
     }
   },
@@ -145,7 +144,7 @@ export default {
         setTimeout(() => page.loading = false, 500);
       }
     },
-    onContextmenu(pageKey, e) {
+    onContextmenu (pageKey, e) {
       if (pageKey) {
         e.preventDefault();
         e.meta = pageKey;
@@ -196,11 +195,11 @@ export default {
         this.$router.push(this.activePage);
       }
     },
-    clearCache(page) {
+    clearCache (page) {
       page._init_ = false;
       this.clearCaches = [page.cachedKey];
     },
-    reloadContent(onLoaded) {
+    reloadContent (onLoaded) {
       this.refreshing = true;
       setTimeout(() => {
         this.refreshing = false;
@@ -212,13 +211,13 @@ export default {
         });
       }, 200);
     },
-    pageName(page) {
+    pageName (page) {
       return this.$t(getI18nKey(page.keyPath));
     },
     /**
      * 添加监听器
      */
-    addListener() {
+    addListener () {
       window.addEventListener("page:close", this.closePageListener);
       window.addEventListener("page:refresh", this.refreshPageListener);
       window.addEventListener("unload", this.unloadListener);
@@ -226,7 +225,7 @@ export default {
     /**
      * 移出监听器
      */
-    removeListener() {
+    removeListener () {
       window.removeEventListener("page:close", this.closePageListener);
       window.removeEventListener("page:refresh", this.refreshPageListener);
       window.removeEventListener("unload", this.unloadListener);
@@ -235,8 +234,8 @@ export default {
      * 页签关闭事件监听
      * @param event 页签关闭事件
      */
-    closePageListener(event) {
-      const {closeRoute, nextRoute} = event.detail;
+    closePageListener (event) {
+      const { closeRoute, nextRoute } = event.detail;
       const closePath = typeof closeRoute === "string" ? closeRoute : closeRoute.path;
       const path = closePath && closePath.split("?")[0];
       this.remove(path, nextRoute);
@@ -245,19 +244,19 @@ export default {
      * 页面刷新事件监听
      * @param event 页签关闭事件
      */
-    refreshPageListener(event) {
-      const {pageKey} = event.detail;
+    refreshPageListener (event) {
+      const { pageKey } = event.detail;
       const path = pageKey && pageKey.split("?")[0];
       this.refresh(path);
     },
     /**
      * 页面 unload 事件监听器，添加页签到 session 缓存，用于刷新时保留页签
      */
-    unloadListener() {
-      const tabs = this.pageList.map(item => ({...item, _init_: false}));
+    unloadListener () {
+      const tabs = this.pageList.map(item => ({ ...item, _init_: false }));
       sessionStorage.setItem(process.env.VUE_APP_TBAS_KEY, JSON.stringify(tabs));
     },
-    createPage(route) {
+    createPage (route) {
       return {
         keyPath: route.matched[route.matched.length - 1].path,
         fullPath: route.fullPath, loading: false,
@@ -270,7 +269,7 @@ export default {
      * 设置页面缓存的key
      * @param route 页面对应的路由
      */
-    setCachedKey(route) {
+    setCachedKey (route) {
       const page = this.pageList.find(item => item.path === route.path);
       page.unclose = route.meta && route.meta.page && (route.meta.page.closable === false);
       if (!page._init_) {
@@ -282,7 +281,7 @@ export default {
     /**
      * 加载缓存的 tabs
      */
-    loadCachedTabs() {
+    loadCachedTabs () {
       const cachedTabsStr = sessionStorage.getItem(process.env.VUE_APP_TBAS_KEY);
       if (cachedTabsStr) {
         try {
@@ -297,7 +296,7 @@ export default {
         }
       }
     },
-    loadCacheConfig(routes, pCache = true) {
+    loadCacheConfig (routes, pCache = true) {
       routes.forEach(item => {
         const cacheAble = item.meta?.page?.cacheAble ?? pCache ?? true;
         if (!cacheAble) {
@@ -314,17 +313,17 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .tabs-view{
-    margin: -16px auto 8px;
-    &.head.fixed{
-      max-width: 1400px;
-    }
+.tabs-view {
+  margin: -16px auto 8px;
+  &.head.fixed {
+    max-width: 1400px;
   }
-  .tabs-view-content{
-    position: relative;
-    &.head.fixed{
-      width: 1400px;
-      margin: 0 auto;
-    }
+}
+.tabs-view-content {
+  position: relative;
+  &.head.fixed {
+    width: 1400px;
+    margin: 0 auto;
   }
+}
 </style>

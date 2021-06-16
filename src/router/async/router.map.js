@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-16 08:43:32
+ * @LastEditTime: 2021-06-16 11:29:45
  * @Description: 
  * @Tags: @异步路由 @router
  * @FilePath: /vue-antd-admin/src/router/async/router.map.js
@@ -36,12 +36,24 @@ const routerMap = {
   demo: {
     path: "/demo",
     name: "demo实例",
+    meta: { icon: "code", },
     component: view.blank
   },
   richText: {
     path: "/richText",
     name: "富文本组件",
-    component: () => import("@/pages/demo/richtext.vue")
+    component: () => import("@/pages/demo/richtext")
+  },
+  generalTable: {
+    path: "/generalTable",
+    name: "通用表格",
+    component: () => import("@/pages/demo/generalTable")
+  },
+  demoDetails: {
+    path: "/demoDetails",
+    name: "带参详情页",
+    meta: { invisible: true },
+    component: () => import("@/pages/demo/details")
   },
   // ================= = 权限控制部分 = ======================
   PermissionControl: {
@@ -64,6 +76,13 @@ const routerMap = {
     name: "菜单管理",
     path: "/menu",
     component: () => import("@/pages/permissions/menu")
+  },
+  // ================= = 其他 = ======================
+  swagger: {
+    name: "接口文档",
+    path: "/swagger",
+    icon: "file-word",
+    link: `${process.env.VUE_APP_API_BASE_URL}/swagger-ui.html#/`
   },
   // ===================== = 异常页 = ===================
   exp403: {

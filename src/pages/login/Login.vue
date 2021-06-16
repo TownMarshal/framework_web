@@ -138,12 +138,10 @@ export default {
             router: "root",
             children: [
               "dashboard",
-              ...res.data.data.map(item => {
-                return {
-                  router: item.url,
-                  children: this.childrenFor(item)
-                };
-              })]
+              ... this.childrenFor({
+                childrenList: res.data.data
+              })
+            ]
           }];
           // 加载异步路由
           loadRoutes(RouterConfig);
@@ -164,10 +162,13 @@ export default {
         let list = item.childrenList.map(Citem => {
           return {
             router: Citem.url,
+            order: Citem.orderNum,
             children: this.childrenFor(Citem)
           };
         });
-        return list;
+        return list.sort((a, b) => {
+          return a.order - b.order;
+        });
       } else {
         return [];
       }

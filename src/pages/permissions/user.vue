@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-15 17:00:22
+ * @LastEditTime: 2021-06-16 10:25:03
  * @Description: @用户管理
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/permissions/user.vue
@@ -21,20 +21,15 @@
         </div>
 
         <div slot="action" slot-scope="record">
-          <a style="margin-right: 8px" @click="editUser(record)" :disabled="record.userName == 'admin'">
-            <a-icon type="edit" />编辑信息
-          </a>
+          <a-button type="link" icon="edit" @click="editUser(record)" :disabled="record.userName == 'admin'">编辑信息</a-button>
 
-          <a style="margin-right: 8px" @click="editRole(record)" :disabled="record.userName == 'admin'">
-            <a-icon type="plus" />设置角色
-          </a>
+          <a-button type="link" icon="plus" @click="editRole(record)" :disabled="record.userName == 'admin'">设置角色</a-button>
 
-          <a-popconfirm title="确认删除吗?" ok-text="Yes" cancel-text="No" @confirm="deleteRecord(record.id)">
-            <a href="javascript:void(0)" :disabled="record.userName == 'admin'">
-              <a-icon type="delete" />删除
-            </a>
+          <a-popconfirm title="确认删除吗?" @confirm="deleteRecord(record.id)" :disabled="record.userName == 'admin'">
+            <a-button type="link" icon="delete" :disabled="record.userName == 'admin'">删除</a-button>
           </a-popconfirm>
         </div>
+
       </a-table>
 
       <a-modal v-model="visible" :title="modalType == 'create'? '创建用户' : '修改用户信息'" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmit" @cancel="resetForm">
@@ -89,6 +84,7 @@ export default {
     role.query({ pageSize: 100 }).then(res => {
       this.RoleList = res.data.data;
     });
+
   },
   data () {
     return {
@@ -227,11 +223,6 @@ export default {
 .fold {
   width: calc(100% - 216px);
   display: inline-block;
-}
-.operator {
-  margin-bottom: 18px;
-  display: flex;
-  flex-wrap: wrap;
 }
 @media screen and (max-width: 900px) {
   .fold {

@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-15 17:32:16
+ * @LastEditTime: 2021-06-16 11:13:35
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/config/default/setting.config.js
@@ -56,7 +56,7 @@ module.exports = {
   // 页面底部链接，
   // {link: '链接地址',name:'名称/显示文字',icon:'图标，支持 ant design vue 图标库'}
   footerLinks: [
-    // {link: 'https://pro.ant.design', name: 'Pro首页'},
+    // {link: "https://pro.ant.design", name: "Pro首页"},
     // {link: 'https://github.com/iczer/vue-antd-admin', icon: 'github'},
     // {link: 'https://ant.design', name: 'Ant Design'}
   ],

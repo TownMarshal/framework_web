@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-15 15:29:45
+ * @LastEditTime: 2021-06-16 10:25:57
  * @Description: 
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/App.vue
@@ -105,12 +105,10 @@ export default {
           router: "root",
           children: [
             "dashboard",
-            ...res.data.data.map(item => {
-              return {
-                router: item.url,
-                children: this.childrenFor(item)
-              };
-            })]
+            ... this.childrenFor({
+              childrenList: res.data.data
+            })
+          ]
         }];
         // 加载异步路由
         loadRoutes(RouterConfig);
@@ -124,10 +122,13 @@ export default {
         let list = item.childrenList.map(Citem => {
           return {
             router: Citem.url,
+            order: Citem.orderNum,
             children: this.childrenFor(Citem)
           };
         });
-        return list;
+        return list.sort((a, b) => {
+          return a.order - b.order;
+        });
       } else {
         return [];
       }
@@ -135,3 +136,23 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+// @global_less
+
+// 表格中的link按钮样式优化
+td {
+  button.ant-btn {
+    &.ant-btn-link {
+      padding-left: 0px;
+    }
+  }
+}
+
+// 顶部操作按钮部分
+.operator {
+  padding-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>
