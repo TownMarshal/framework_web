@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-15 15:54:21
+ * @LastEditTime: 2021-06-16 08:43:32
  * @Description: 
  * @Tags: @异步路由 @router
  * @FilePath: /vue-antd-admin/src/router/async/router.map.js
@@ -31,6 +31,17 @@ const routerMap = {
     path: "/dashboard",
     meta: { icon: "dashboard" },
     component: () => import("@/pages/dashboard/workplace")
+  },
+  // ================= = demo实例 = ======================
+  demo: {
+    path: "/demo",
+    name: "demo实例",
+    component: view.blank
+  },
+  richText: {
+    path: "/richText",
+    name: "富文本组件",
+    component: () => import("@/pages/demo/richtext.vue")
   },
   // ================= = 权限控制部分 = ======================
   PermissionControl: {
