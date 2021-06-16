@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-16 14:18:17
+ * @LastEditTime: 2021-06-16 16:34:14
  * @Description: @通用表格
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/demo/generalTable.vue
@@ -8,36 +8,67 @@
   <a-card>
     <!-- 顶部操作按钮 -->
     <a-space class="operator">
-      <a-button @click="addNew" type="primary" icon="plus">新 建</a-button>
-      <a-button @click="reload" type="default" icon="reload">刷 新</a-button>
-      <FileUpload v-model="fileList" :multiple="true" style="width:400px;"/>
+      <a-button @click="addNew"
+                type="primary"
+                icon="plus">新 建</a-button>
+      <a-button @click="reload"
+                type="default"
+                icon="reload">刷 新</a-button>
+      <FileUpload v-model="fileList"
+                  :multiple="true"
+                  style="width:400px;" />
     </a-space>
 
     <!-- 表格 -->
-    <a-table :columns="columns" :dataSource="dataSource" :row-key="record => record.id" :loading="loading" @change="handleTableChange" size="small" :pagination="pagination">
+    <a-table :columns="columns"
+             :dataSource="dataSource"
+             :row-key="record => record.id"
+             :loading="loading"
+             @change="handleTableChange"
+             size="small"
+             :pagination="pagination">
 
-      <div slot="action" slot-scope="record">
-        <a-button type="link" icon="edit" @click="editRecord(record)">拉起窗口编辑</a-button>
+      <div slot="action"
+           slot-scope="record">
+        <a-button type="link"
+                  icon="edit"
+                  @click="editRecord(record)">拉起窗口编辑</a-button>
 
-        <a-button type="link" icon="solution" @click="openRecord(record)">新页面查看详情</a-button>
+        <a-button type="link"
+                  icon="solution"
+                  @click="openRecord(record)">新页面查看详情</a-button>
 
-        <a-popconfirm title="确认删除吗?" @confirm="deleteRecord(record.id)" :disabled="record.userName == 'admin'">
-          <a-button type="link" icon="delete" :disabled="record.userName == 'admin'">删除</a-button>
+        <a-popconfirm title="确认删除吗?"
+                      @confirm="deleteRecord(record.id)"
+                      :disabled="record.userName == 'admin'">
+          <a-button type="link"
+                    icon="delete"
+                    :disabled="record.userName == 'admin'">删除</a-button>
         </a-popconfirm>
       </div>
     </a-table>
 
     <!-- 弹窗新建/修改 -->
-    <a-modal v-model="visible" :title="editTarget.id?'修改':'新建'" :width="$store.state.setting.isMobile ? '98vw':'700px'" @ok="onSubmit">
+    <a-modal v-model="visible"
+             :title="editTarget.id?'修改':'新建'"
+             :width="$store.state.setting.isMobile ? '98vw':'700px'"
+             @ok="onSubmit">
       <!-- 内部容器 -->
       <div style="max-height:70vh;overflow-y:scroll;">
         <!-- 新建/修改表单 -->
-        <a-form-model ref="ruleForm" :model="editTarget" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
-          <a-form-model-item label="昵称" prop="loginName">
+        <a-form-model ref="ruleForm"
+                      :model="editTarget"
+                      :rules="rules"
+                      :label-col="{ span: 6 }"
+                      :wrapper-col="{ span: 14 }">
+          <a-form-model-item label="昵称"
+                             prop="loginName">
             <a-input v-model="editTarget.loginName" />
           </a-form-model-item>
-          <a-form-model-item label="登录账号" prop="userName">
-            <a-input v-model="editTarget.userName" :disabled="editTarget.id" />
+          <a-form-model-item label="登录账号"
+                             prop="userName">
+            <a-input v-model="editTarget.userName"
+                     :disabled="editTarget.id" />
           </a-form-model-item>
         </a-form-model>
       </div>
