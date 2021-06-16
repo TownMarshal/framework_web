@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-15 15:34:47
+ * @LastEditTime: 2021-06-16 11:34:31
  * @Description: 
  * @Tags: @api @baseURL
  * @FilePath: /vue-antd-admin/src/services/api.js
@@ -18,6 +18,9 @@ module.exports = {
   LOGIN: `${BASE_URL}/login`,
   // 获取异步路由
   ROUTES: `${BASE_URL}/sysPermission/selectTreeByUserId`,
+  // ================ = 文件管理 = =====================
+  FILE_UPLOAD: `${BASE_URL}/attachment/add`,
+
   // ================ = 用户管理 = =====================
   USER_ADD: `${BASE_URL}/sysUser/add`,
   USER_DELETE: `${BASE_URL}/sysUser/delete`,

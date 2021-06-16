@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-16 11:26:50
+ * @LastEditTime: 2021-06-16 14:18:17
  * @Description: @通用表格
  * @Tags: 
  * @FilePath: /vue-antd-admin/src/pages/demo/generalTable.vue
@@ -10,6 +10,7 @@
     <a-space class="operator">
       <a-button @click="addNew" type="primary" icon="plus">新 建</a-button>
       <a-button @click="reload" type="default" icon="reload">刷 新</a-button>
+      <FileUpload v-model="fileList" :multiple="true" style="width:400px;"/>
     </a-space>
 
     <!-- 表格 -->
@@ -47,7 +48,11 @@
 
 <script>
 // 引入接口请求方法
-import { userService as tableServices } from "@/services";
+import {
+  userService as tableServices,
+} from "@/services";
+import FileUpload from "@/components/fileUpload.vue";
+
 // 表格列
 const columns = [
   { title: "昵称", dataIndex: "loginName" },
@@ -56,11 +61,16 @@ const columns = [
   { title: "操作", scopedSlots: { customRender: "action" } }
 ];
 export default {
+  components: {
+    FileUpload
+  },
   created () {
     this.reload();
   },
   data () {
     return {
+      // 上传文件列表
+      fileList: [],
       // table加载
       loading: false,
       dataSource: [],
