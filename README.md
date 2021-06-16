@@ -1,8 +1,8 @@
 <!--
- * @LastEditTime: 2021-06-16 17:09:29
+ * @LastEditTime: 2021-06-16 17:16:26
  * @Description: 
  * @Tags: 
- * @FilePath: /vue-antd-admin/README.md
+ * @FilePath: /framework_web/README.md
 -->
 
 ## 使用
@@ -44,10 +44,10 @@ $ npm run serve
 
 ## 关于Eslint
 
-**禁止关闭项目ESLint ！！！**
+**ESLint禁止关闭或修改配置 ！！！**
 
-**禁止关闭项目ESLint ！！！**
+**ESLint禁止关闭或修改配置 ！！！**
 
-**禁止关闭项目ESLint ！！！**
+**ESLint禁止关闭或修改配置 ！！！**
 
 较多格式化问题使用 `npm run lint-fix` 自动处理; 无法自动处理务必手动解决。禁止携带Warning/Error 提交合并。
