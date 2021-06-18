@@ -1,9 +1,13 @@
 /*
- * @LastEditTime: 2021-06-16 11:39:14
+ * @LastEditTime: 2021-06-18 11:47:53
  * @Description: 使用时 import { role as ? } from "@/services";
  * @Tags: @API集成引入
- * @FilePath: /vue-antd-admin/src/services/index.js
+ * @FilePath: /framework_web/src/services/index.js
  */
+
+// 华为OBS方法
+import obs from "./obs";
+
 import userService from "./user";
 import dataSource from "./dataSource";
 // 角色表
@@ -18,4 +22,5 @@ export {
   role,
   routerTab,
   file,
+  obs
 };

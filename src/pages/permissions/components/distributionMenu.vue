@@ -1,12 +1,11 @@
 <!--
- * @LastEditTime: 2021-06-17 15:13:56
+ * @LastEditTime: 2021-06-18 11:44:33
  * @Description: 分配路由的组件
  * @Tags: 
  * @FilePath: /framework_web/src/pages/permissions/components/distributionMenu.vue
 -->
 <template>
   <div>
-    <!-- {{data}} -->
     <a-tree :tree-data="data"
             checkable
             v-model="selectedRowKeys"

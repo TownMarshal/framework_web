@@ -1,8 +1,8 @@
 /*
- * @LastEditTime: 2021-06-15 15:12:21
+ * @LastEditTime: 2021-06-18 11:47:33
  * @Description: @main.js
  * @Tags: 
- * @FilePath: /vue-antd-admin/src/main.js
+ * @FilePath: /framework_web/src/main.js
  */
 import Vue from "vue";
 import App from "./App.vue";
@@ -17,6 +17,8 @@ import Plugins from "@/plugins";
 import { initI18n } from "@/utils/i18n";
 import bootstrap from "@/bootstrap";
 import "moment/locale/zh-cn";
+
+import { obs } from "@/services";
 
 const router = initRouter(store.state.setting.asyncRoutes);
 const i18n = initI18n("CN", "US");
@@ -33,6 +35,8 @@ Vue.prototype.$permissions = function (target) {
   let menuData = this.$store.state.setting.allMenu;
   return menuData.includes(target);
 };
+// 华为OBS方法
+Vue.prototype.$obs = obs;
 
 bootstrap({ router, store, i18n, message: Vue.prototype.$message });
 new Vue({
