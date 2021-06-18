@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-18 15:44:00
+ * @LastEditTime: 2021-06-18 15:45:59
  * @Description:
  * @Tags:
  * @FilePath: /framework_web/src/services/obs.js
@@ -70,7 +70,6 @@ function OBS () {
     useRawXhr: false
   });
 }
-console.log(OBS());
 
 // this.$obs.Upload(e.target.files[0])
 // .then(result => {
