@@ -1,8 +1,8 @@
 <!--
- * @LastEditTime: 2021-06-16 09:07:01
+ * @LastEditTime: 2021-06-18 12:00:40
  * @Description: 
  * @Tags: 
- * @FilePath: /vue-antd-admin/src/pages/demo/richtext.vue
+ * @FilePath: /framework_web/src/pages/demo/richtext.vue
 -->
 <template>
   <a-card>
@@ -16,6 +16,7 @@
                 placeholder="只读代码预览"
                 readonly></textarea>
     </div>
+    <!-- 预览展示 -->
     <div v-html="content"
          style="min-height:200px;"></div>
   </a-card>

@@ -198,9 +198,7 @@ export default {
       }
     },
     // 获取短信验证码
-    getVerifyCode () {
-
-    },
+    getVerifyCode () { },
   }
 };
 </script>
