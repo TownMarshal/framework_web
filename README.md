@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-16 17:16:26
+ * @LastEditTime: 2021-06-18 11:55:10
  * @Description: 
  * @Tags: 
  * @FilePath: /framework_web/README.md
@@ -10,7 +10,7 @@
 ### clone
 
 ```bash
-$ git clone https://github.com/iczer/vue-antd-admin.git
+$ git clone https://gitee.com/qingdao-horqian-information/framework_web.git
 ```
 
 ### yarn
