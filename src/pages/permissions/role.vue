@@ -1,5 +1,5 @@
 <!--
- * @LastEditTime: 2021-06-17 15:17:29
+ * @LastEditTime: 2021-06-22 17:25:42
  * @Description: @角色管理
  * @Tags: 
  * @FilePath: /framework_web/src/pages/permissions/role.vue
@@ -72,9 +72,10 @@
       </a-table>
 
       <div v-show="this.rowSelection.selectedRowKeys[0]"
-           style="min-width:30%;">
+           style="width:30%;">
         <!-- 分配菜单组件 -->
         <distribution-menu querytype="role"
+                           ref="distributionMenu"
                            :roleid="this.rowSelection.selectedRowKeys[0]" />
       </div>
     </div>
@@ -140,6 +141,7 @@ export default {
   },
   methods: {
     reload () {
+      this.$refs.distributionMenu.start();
       this.fetch();
     },
     // 提交角色信息修改
