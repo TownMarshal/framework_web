@@ -1,8 +1,8 @@
 <!--
- * @LastEditTime: 2021-06-16 16:34:14
+ * @LastEditTime: 2021-06-22 17:00:13
  * @Description: @通用表格
  * @Tags: 
- * @FilePath: /vue-antd-admin/src/pages/demo/generalTable.vue
+ * @FilePath: /framework_web/src/pages/demo/generalTable.vue
 -->
 <template>
   <a-card>
@@ -153,7 +153,7 @@ export default {
     // 跳转详情页
     openRecord (record) {
       // 打开新页面并设置标题 router,title
-      this.$openPage(`/demoDetails?id=${record.id}`, record.loginName);
+      this.$openPage(`/moduleDetails?id=${record.id}`, record.loginName);
     },
     // 删除行
     deleteRecord (key) {

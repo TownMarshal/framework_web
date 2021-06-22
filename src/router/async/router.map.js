@@ -1,8 +1,8 @@
 /*
- * @LastEditTime: 2021-06-16 11:29:45
+ * @LastEditTime: 2021-06-22 16:59:18
  * @Description: 
  * @Tags: @异步路由 @router
- * @FilePath: /vue-antd-admin/src/router/async/router.map.js
+ * @FilePath: /framework_web/src/router/async/router.map.js
  */
 
 // 视图组件
@@ -54,6 +54,24 @@ const routerMap = {
     name: "带参详情页",
     meta: { invisible: true },
     component: () => import("@/pages/demo/details")
+  },
+  module: {
+    path: "/model",
+    name: "功能模块",
+    redirect: "/moduleTable",
+    component: view.blank
+  },
+  moduleDetails: {
+    path: "/moduleDetails",
+    name: "模块详情",
+    meta: { invisible: true },
+    component: () => import("@/pages/demo/details")
+  },
+  moduleTable: {
+    path: "/moduleTable",
+    name: "模块列表",
+    meta: { invisible: true },
+    component: () => import("@/pages/demo/generalTable")
   },
   // ================= = 权限控制部分 = ======================
   PermissionControl: {
