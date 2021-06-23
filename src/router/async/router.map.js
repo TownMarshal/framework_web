@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2021-06-22 16:59:18
+ * @LastEditTime: 2021-06-23 14:13:44
  * @Description: 
  * @Tags: @异步路由 @router
  * @FilePath: /framework_web/src/router/async/router.map.js
@@ -9,7 +9,8 @@
 const view = {
   tabs: () => import("@/layouts/tabs"),
   blank: () => import("@/layouts/BlankView"),
-  page: () => import("@/layouts/PageView")
+  page: () => import("@/layouts/PageView"),
+  breadcrumb: () => import("@/layouts/BreadcrumbView"),
 };
 
 // 路由组件注册
@@ -78,7 +79,7 @@ const routerMap = {
     path: "/PermissionControl",
     name: "权限控制",
     meta: { icon: "control" },
-    component: view.page,
+    component: view.breadcrumb,
   },
   user: {
     name: "用户管理",
